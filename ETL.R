@@ -22,7 +22,7 @@ load.msgs <- function(yeartoload){
   
   nickschangefile <- read.xlsx(xlsxFile = "nicks.xlsx")
   uniquenicktoidfile <- read.xlsx(xlsxFile = "nicks.xlsx", sheet = 2,colNames = FALSE)
-
+  
   
   
   
@@ -77,13 +77,13 @@ load.hgtscores <-  function(yeartoload){
 
 
 load.usercolors <- function(){
- library(jsonlite)
- url= paste0("https://slack.com/api/users.list?token=", slackToken,sep="")
+  library(jsonlite)
+  url= paste0("https://slack.com/api/users.list?token=", slackToken,sep="")
   
-  dataAPI <- fromJSON(url)
+  
   uniquenicktoidfile <- read.xlsx(xlsxFile = "nicks.xlsx", sheet = 2,colNames = FALSE)
   names(uniquenicktoidfile) <- c("user__id","unick")
-
+  dataAPI <- fromJSON(url)
   merged <- data.frame(dataAPI$members$id,dataAPI$members$color)
   names(merged)<-c("user__id","color")
   merged <- transform(merged, color = ifelse(is.na(color), "FFFFFF", as.character(color)))
@@ -91,9 +91,9 @@ load.usercolors <- function(){
   
   merged <- merge(merged,uniquenicktoidfile,by="user__id")
   merged[,2:3]
-
   
-
+  
+  
   
 }
 

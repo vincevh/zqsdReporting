@@ -90,3 +90,14 @@ ggplot(data=msgpernickperhourWEEK, aes(x=hour,y=unick)) + geom_point(aes(size=n)
 
 ```
 
+
+
+```{r}
+
+msgpernickWEEKK <- count(msgWEEK, unick)
+
+
+ggplot(data=msgpernickWEEKK,aes(reorder(unick,n),n)) + geom_bar(stat='identity') + coord_flip() + ylab("Number of messages") + xlab("Username")+ ggtitle("Most useless at work (previous week)") + aes(fill=unick)+ scale_fill_manual(values = jColors)+ guides(fill=FALSE)
+
+```
+
