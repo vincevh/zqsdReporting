@@ -13,9 +13,10 @@ knitr::opts_chunk$set(cache = TRUE)
 source(file = "ETL.R")
 library(ggplot2)
 library(lubridate)
-yeartoload <- 2017
+yeartoload <- year(Sys.Date())
 messages <- load.msgs(yeartoload)
 scoreshgt <- load.hgtscores(yeartoload)
+usercolors <- load.usercolors() 
 ```
 
 ## Whole year
@@ -23,8 +24,7 @@ scoreshgt <- load.hgtscores(yeartoload)
 
 ```{r msgpernickperweekday }
 
-msgspernick <- count(messages,unick)
-msgspernick$unick <- factor(msgspernick$unick, levels = msgspernick$unick[order(msgspernick$n)])
+
 
 msgpernickperweekday<- count(messages, unick ,format(datetime,"%A"))
 names(msgpernickperweekday) <- c("unick","weekday","n")
@@ -39,10 +39,14 @@ ggplot(data=msgpernickperweekday,aes(reorder(unick,n),n,fill=weekday)) + coord_f
 
 
 ```{r hgtscores}
-#replacing userid per real username
 
 
-ggplot(data=scoreshgt,aes(reorder(unick,hgtscore),hgtscore)) + geom_bar(stat='identity', fill="steelblue") + coord_flip() + ylab("HGT Score") + xlab("Username")+ ggtitle("HGT Scores per username")
+jColors <- usercolors$color
+names(jColors) <- usercolors$unick
+
+
+
+ggplot(data=scoreshgt,aes(reorder(unick,hgtscore),hgtscore)) + geom_bar(stat='identity') + coord_flip() + ylab("HGT Score") + xlab("Username")+ ggtitle("HGT Scores per username") + aes(fill=unick)+ scale_fill_manual(values = jColors)+ guides(fill=FALSE)
 
 ```
 
@@ -55,9 +59,11 @@ names(msgpernickperhour) <- c("unick","hour","n")
 #ggplot(data=msgpernickperhour, aes(hour,n, color=unick)) + geom_line() + ylab("# of messages") + ggtitle("Activity per hour") + scale_x_continuous(breaks=1:24)
  
 
+
+
+ggplot(data=msgpernickperhour, aes(x=hour,y=unick)) + geom_point(aes(size=n),pch=21) + aes(color=unick,fill=unick) + scale_fill_manual(values = jColors)+ ylab("# of messages") + ggtitle("Activity per hour for the whole year") + scale_x_continuous(breaks=1:24) + guides(color=FALSE,fill=FALSE)
  
 
- ggplot(data=msgpernickperhour, aes(x=hour,y=unick, size=n, color=unick)) + geom_point() + ylab("# of messages") + ggtitle("Activity per hour") + scale_x_continuous(breaks=1:24) + guides(color=FALSE)
 
 
 ```
@@ -69,9 +75,16 @@ names(msgpernickperhour) <- c("unick","hour","n")
 
 ```{r lastweekactivity}
 
-#previousWeek <- 
+msgWEEK <- messages[messages$datetime >floor_date(Sys.Date()-6, "week") & messages$datetime <  floor_date(Sys.Date(), "week")+1 ,]
 
-#msgLastWeek <- messages[format(date]
+
+msgpernickperhourWEEK <- count(msgWEEK, unick ,hour(datetime))
+
+names(msgpernickperhourWEEK) <- c("unick","hour","n")
+
+
+ggplot(data=msgpernickperhourWEEK, aes(x=hour,y=unick)) + geom_point(aes(size=n),pch=21) + aes(color=unick,fill=unick) + scale_fill_manual(values = jColors)+ ylab("# of messages") + ggtitle("Activity per hour of previous week")  + scale_x_continuous(breaks=1:24) + guides(color=FALSE,fill=FALSE)
+
 
 
 
