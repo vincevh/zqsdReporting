@@ -1,0 +1,79 @@
+---
+title: "Slack zqsd #general Stats"
+output:
+  html_document:
+    css : "zqsd.css"
+
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(cache = TRUE)
+source(file = "ETL.R")
+library(ggplot2)
+library(lubridate)
+yeartoload <- 2017
+messages <- load.msgs(yeartoload)
+scoreshgt <- load.hgtscores(yeartoload)
+```
+
+## Whole year
+
+
+```{r msgpernickperweekday }
+
+msgspernick <- count(messages,unick)
+msgspernick$unick <- factor(msgspernick$unick, levels = msgspernick$unick[order(msgspernick$n)])
+
+msgpernickperweekday<- count(messages, unick ,format(datetime,"%A"))
+names(msgpernickperweekday) <- c("unick","weekday","n")
+
+msgpernickperweekday$weekday <- factor(msgpernickperweekday$weekday, levels = c("lundi","mardi","mercredi","jeudi","vendredi","samedi","dimanche"))
+
+
+ggplot(data=msgpernickperweekday,aes(reorder(unick,n),n,fill=weekday)) + coord_flip() + geom_bar(stat="identity") + ggtitle(sprintf("Number of messages per weekday for %s", (yeartoload))) + xlab("Username") + ylab("# of messages") + scale_fill_brewer(palette = "Blues")
+
+
+```
+
+
+```{r hgtscores}
+#replacing userid per real username
+
+
+ggplot(data=scoreshgt,aes(reorder(unick,hgtscore),hgtscore)) + geom_bar(stat='identity', fill="steelblue") + coord_flip() + ylab("HGT Score") + xlab("Username")+ ggtitle("HGT Scores per username")
+
+```
+
+
+```{r perhourstats}
+
+msgpernickperhour<- count(messages, unick ,hour(datetime))
+names(msgpernickperhour) <- c("unick","hour","n")
+ 
+#ggplot(data=msgpernickperhour, aes(hour,n, color=unick)) + geom_line() + ylab("# of messages") + ggtitle("Activity per hour") + scale_x_continuous(breaks=1:24)
+ 
+
+ 
+
+ ggplot(data=msgpernickperhour, aes(x=hour,y=unick, size=n, color=unick)) + geom_point() + ylab("# of messages") + ggtitle("Activity per hour") + scale_x_continuous(breaks=1:24) + guides(color=FALSE)
+
+
+```
+
+
+
+## Previous week
+
+
+```{r lastweekactivity}
+
+#previousWeek <- 
+
+#msgLastWeek <- messages[format(date]
+
+
+
+```
+
