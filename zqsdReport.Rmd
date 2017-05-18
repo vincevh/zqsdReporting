@@ -41,6 +41,8 @@ msgpernickperweekday$weekday <- factor(msgpernickperweekday$weekday, levels = c(
 ggplot(data=msgpernickperweekday,aes(reorder(unick,n),n,fill=weekday)) + coord_flip() + geom_bar(stat="identity") + ggtitle(sprintf("Number of messages per weekday for %s", (yeartoload))) + xlab("Username") + ylab("# of messages") + scale_fill_brewer(palette = "Blues")
 
 
+
+
 ```
 
 
@@ -73,6 +75,21 @@ ggplot(data=msgpernickperhour, aes(x=hour,y=unick)) + geom_point(aes(size=n),pch
 
 
 ```
+
+
+```{r}
+messages2 <- messages
+messages2$msg <- as.numeric(nchar(messages2$msg))
+messages2 <- messages2[,c(2,4)]
+toplot <- aggregate(messages2$msg, by=list(messages2$unick), FUN="mean")
+toplot <- toplot[,1:2]
+names(toplot) <- c("Nick","averagecharpermsg")
+ggplot(toplot,aes(x = Nick,y=averagecharpermsg)) + geom_bar(stat="identity") + coord_flip() + aes(fill=Nick) + scale_fill_manual(values = jColors) + guides(fill=FALSE) + ggtitle("Average number of chars per message") + xlab("Nick") + ylab("Average chars in message")
+
+```
+
+
+
 
 
 
