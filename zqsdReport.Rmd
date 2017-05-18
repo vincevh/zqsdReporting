@@ -15,6 +15,9 @@ library(ggplot2)
 library(lubridate)
 library(wordcloud)
 library(stringr)
+library(tm)
+library(SnowballC)
+library(RColorBrewer)
 yeartoload <- year(Sys.Date())
 messages <- load.msgs(yeartoload)
 scoreshgt <- load.hgtscores(yeartoload)
@@ -104,9 +107,10 @@ ggplot(data=msgpernickWEEKK,aes(reorder(unick,n),n)) + geom_bar(stat='identity')
 
 ```
 
-### Word Cloud (last week - more than 3 chars)
+### Word Cloud (last week)
 ```{r}
 
+stopwordsFR <-as.character(read.csv("resources/stopwords-fr.txt", fileEncoding = "UTF-8", header=FALSE)$V1  )
 
 search  = "çñÄÂÀÁäâàáËÊÈÉéèëêÏÎÌÍïîìíÖÔÒÓöôòóÜÛÙÚüûùúµ"
 replace = "cnaaaaaaaeeeeeeeeeiiiiiiiioooooooouuuuuuuuu"
@@ -116,9 +120,24 @@ msgWEEKClean <- msgWEEK
 msgWEEKClean$msg <- tolower(chartr(search,replace,msgWEEKClean$msg))
 
 msgWEEKClean$msg <- str_replace_all(msgWEEKClean$msg, "[^[:alnum:]]", " ")
-  
+
+
+
 temp <- (unlist(strsplit(msgWEEKClean$msg," ")))
 
+
+#temp <- setdiff(temp,stopwordsFR)
+
+"%w/o%" <- function(x, y) x[!x %in% y] #--  x without y
+
+temp <- temp %w/o% stopwordsFR
+
+
+
+
+
+
+temp <- temp[temp!= ""]
 
 
 temp <- as.data.frame(table(temp))
@@ -126,7 +145,14 @@ temp$temp <- as.character(temp$temp)
 
 temp <- temp[nchar(temp$temp) > 3,]
 
-wordcloud(temp$temp,temp$Freq,max.words =100,ordered.colors = TRUE)
+
+ wordcloud(temp$temp,temp$Freq,max.words =100)
+
+
+
+
+
+
 
 
 ```
