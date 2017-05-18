@@ -9,7 +9,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-knitr::opts_chunk$set(cache = TRUE)
+knitr::opts_chunk$set(cache = FALSE)
 source(file = "ETL.R")
 library(ggplot2)
 library(lubridate)
