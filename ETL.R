@@ -2,8 +2,10 @@ library(data.table)
 library(plyr)
 library(dplyr)
 library(openxlsx)
+library(yaml)
 
-slackToken = "xoxp-3633760318-3633833010-185428176678-d5bcbd029df5e541043d4e42d8659325"
+config <- yaml.load_file("config.yml")
+slackToken = config$security$token
 
 load.msgs <- function(yeartoload){
   
