@@ -11,6 +11,7 @@ ailleurs
 ainsi
 ait
 allaient
+aller
 allo
 allons
 allô
@@ -647,6 +648,8 @@ vais
 valeur
 vas
 vers
+veut
+veux
 via
 vif
 vifs
@@ -680,6 +683,8 @@ zut
 étaient
 étais
 était
+etait
+etais
 étant
 état
 étiez

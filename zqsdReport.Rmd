@@ -121,42 +121,28 @@ msgWEEKClean$msg <- tolower(chartr(search,replace,msgWEEKClean$msg))
 
 msgWEEKClean$msg <- str_replace_all(msgWEEKClean$msg, "[^[:alnum:]]", " ")
 
-
-
 temp <- (unlist(strsplit(msgWEEKClean$msg," ")))
-
-
-#temp <- setdiff(temp,stopwordsFR)
 
 "%w/o%" <- function(x, y) x[!x %in% y] #--  x without y
 
 temp <- temp %w/o% stopwordsFR
 
-
-
-
-
-
 temp <- temp[temp!= ""]
-
 
 temp <- as.data.frame(table(temp))
 temp$temp <- as.character(temp$temp)
 
+
 temp <- temp[nchar(temp$temp) > 3,]
 
+ wordcloud(temp$temp,temp$Freq,max.words =100
+        ,random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
 
- wordcloud(temp$temp,temp$Freq,max.words =100)
-
-
-
-
-
-
-
-
+#head(temp[order(-temp$Freq),],n = 50)
 ```
 
-Last update: `r Sys.Date()`  
+Last update: `r Sys.time()`  
+
 Last message in database : `r max(messages$datetime)`
 
