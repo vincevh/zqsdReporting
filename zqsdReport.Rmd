@@ -13,6 +13,8 @@ knitr::opts_chunk$set(cache = TRUE)
 source(file = "ETL.R")
 library(ggplot2)
 library(lubridate)
+library(wordcloud)
+library(stringr)
 yeartoload <- year(Sys.Date())
 messages <- load.msgs(yeartoload)
 scoreshgt <- load.hgtscores(yeartoload)
@@ -20,6 +22,7 @@ usercolors <- load.usercolors()
 ```
 
 ## Whole year
+
 
 
 ```{r msgpernickperweekday }
@@ -100,4 +103,34 @@ msgpernickWEEKK <- count(msgWEEK, unick)
 ggplot(data=msgpernickWEEKK,aes(reorder(unick,n),n)) + geom_bar(stat='identity') + coord_flip() + ylab("Number of messages") + xlab("Username")+ ggtitle("Most useless at work (previous week)") + aes(fill=unick)+ scale_fill_manual(values = jColors)+ guides(fill=FALSE)
 
 ```
+
+### Word Cloud (last week - more than 3 chars)
+```{r}
+
+
+search  = "çñÄÂÀÁäâàáËÊÈÉéèëêÏÎÌÍïîìíÖÔÒÓöôòóÜÛÙÚüûùúµ"
+replace = "cnaaaaaaaeeeeeeeeeiiiiiiiioooooooouuuuuuuuu"
+
+msgWEEKClean <- msgWEEK
+
+msgWEEKClean$msg <- tolower(chartr(search,replace,msgWEEKClean$msg))
+
+msgWEEKClean$msg <- str_replace_all(msgWEEKClean$msg, "[^[:alnum:]]", " ")
+  
+temp <- (unlist(strsplit(msgWEEKClean$msg," ")))
+
+
+
+temp <- as.data.frame(table(temp))
+temp$temp <- as.character(temp$temp)
+
+temp <- temp[nchar(temp$temp) > 3,]
+
+wordcloud(temp$temp,temp$Freq,max.words =100,ordered.colors = TRUE)
+
+
+```
+
+Last update: `r Sys.Date()`  
+Last message in database : `r max(messages$datetime)`
 

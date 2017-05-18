@@ -93,9 +93,11 @@ load.usercolors <- function(){
   
   merged <- merge(merged,uniquenicktoidfile,by="user__id")
   merged[,2:3]
-  
-  
-  
-  
 }
+
+
+
+
+
+
 
