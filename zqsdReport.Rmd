@@ -120,7 +120,7 @@ ggplot(data=msgpernickperhourWEEK, aes(x=hour,y=unick)) + geom_point(aes(size=n)
 
 
 
-```{r}
+```{r msgperweek}
 
 msgpernickWEEKK <- count(msgWEEK, unick)
 
@@ -130,7 +130,7 @@ ggplot(data=msgpernickWEEKK,aes(reorder(unick,n),n)) + geom_bar(stat='identity')
 ```
 
 ### Word Cloud (last week)
-```{r}
+```{r wordcloud}
 
 stopwordsFR <-as.character(read.csv("resources/stopwords-fr.txt", fileEncoding = "UTF-8", header=FALSE)$V1  )
 

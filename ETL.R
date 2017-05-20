@@ -12,6 +12,7 @@ load.msgs <- function(yeartoload){
   
   #variables
   yearstoanalyse <- yeartoload
+  unicksToIgnore <- c("nicobot")
   
   #pre-processing file
   
@@ -64,6 +65,9 @@ load.msgs <- function(yeartoload){
   
   #removing all lines with NA
   messages <- messages[complete.cases(messages),]
+  
+  ##removing all messages from ignored nicks
+  messages <- messages[!messages$unick %in% unicksToIgnore,]
   
 }
 
