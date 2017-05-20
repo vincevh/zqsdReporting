@@ -724,7 +724,6 @@ wink
 files
 youtube
 watch
-spinner
 facebook
 tony
 batto

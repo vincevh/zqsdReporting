@@ -90,15 +90,20 @@ ggplot(toplot,aes(x = Nick,y=averagecharpermsg)) + geom_bar(stat="identity") + c
 
 
 
+```{r}
+mondayWeekMinus1 <- floor_date(Sys.Date()-7, "week")+1
+sundayWeekMinus1 <- floor_date(Sys.Date(), "week")
+
+```
 
 
 
-## Previous week
+## Previous week [`r  mondayWeekMinus1` - `r sundayWeekMinus1`]
 
 
 ```{r lastweekactivity}
 
-msgWEEK <- messages[messages$datetime >floor_date(Sys.Date()-6, "week") & messages$datetime <  floor_date(Sys.Date(), "week")+1 ,]
+msgWEEK <- messages[messages$datetime >=floor_date(Sys.Date()-7, "week")+1 & messages$datetime <=  floor_date(Sys.Date(), "week")+1 ,]
 
 
 msgpernickperhourWEEK <- count(msgWEEK, unick ,hour(datetime))

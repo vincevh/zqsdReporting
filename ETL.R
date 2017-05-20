@@ -17,6 +17,8 @@ load.msgs <- function(yeartoload){
   
   #EXTRACT
   #loading file, not taking the 4th column wich is always the same
+  ## TODO: now message.csv must be pre processed to replace \" by ""
+  ## TODO: use read.csv.sql to only load yeartoload instead of the whole file
   messages <- fread("message.csv", sep = ",", header = FALSE, 
                     encoding="UTF-8",
                     colClasses = c('character','factor','character','NULL','character'),
