@@ -4,7 +4,7 @@ library(dplyr)
 library(openxlsx)
 library(yaml)
 
-config <- yaml.load_file("config.yml")
+config <- yaml.load_file("resources/config.yml")
 slackToken = config$security$tokenSlack
 
 load.msgs <- function(yeartoload){
@@ -12,7 +12,7 @@ load.msgs <- function(yeartoload){
   
   #variables
   yearstoanalyse <- yeartoload
-  unicksToIgnore <- c("nicobot","slackbot")
+  unicksToIgnore <- c("nicobot","slackbot","thu")
   
   #pre-processing file
   

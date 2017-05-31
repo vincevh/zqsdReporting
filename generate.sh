@@ -1,0 +1,1 @@
+Rscript -e 'library(rmarkdown); rmarkdown::render("zqsdReport.Rmd", "html_document")'

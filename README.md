@@ -3,6 +3,7 @@
 ## Files
 * ETL.R: code to extract, transform and load messages, user colors etc..
 * zqsdReport.Rmd: R markdown file which generates the .html output
+* generate.sh: generates the .html file based on the .Rmd file
 
 ## Input
 * message.xls : containing chat logs (not included)

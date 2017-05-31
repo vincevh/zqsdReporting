@@ -1,9 +1,9 @@
 ---
-title: "Slack zqsd #general Stats"
+title: 'Slack zqsd #general Stats'
 output:
   html_document:
-    css : "zqsd.css"
-
+    css: zqsd.css
+  word_document: default
 ---
 
 
@@ -19,6 +19,7 @@ library(stringr)
 library(tm)
 library(SnowballC)
 library(RColorBrewer)
+library(pander)
 yeartoload <- year(Sys.Date())
 messages <- load.msgs(yeartoload)
 scoreshgt <- load.hgtscores(yeartoload)
@@ -98,9 +99,11 @@ ggplot(toplot,aes(x = Nick,y=averagecharpermsg)) + geom_bar(stat="identity") + c
 ```
 
 
-## Word Cloud (2017) per nick
+## Word Cloud (2017) per nick  
 
-```{r wordcloudloop, fig.height = 8, fig.width = 8, dpi=200}
+
+
+```{r wordcloudloop, fig.height = 7, fig.width = 8, dpi=300, results='asis'}
 
 stopwordsFR <-as.character(read.csv("resources/stopwords-fr.txt", fileEncoding = "UTF-8", header=FALSE)$V1  )
 
@@ -135,20 +138,24 @@ temp$temp <- as.character(temp$temp)
 
 temp <- temp[nchar(temp$temp) > 3,]
 
+  cat("  \n###",  unick, "  \n")
 
-
-
-   
-   
-   
-   
-  layout(matrix(c(1, 2), nrow=2), heights=c(1, 10))
-  par(mar=rep(0, 4))
-  plot.new()
-  text(x=0.5, y=0.5, unick, col=jColors[unick],cex=2)
   
-    wordcloud(temp$temp,temp$Freq,max.words =100, main="Title" 
+  
+   
+  layout(matrix(c(1, 2),ncol = 2), widths = c(1, 10))
+  par(mar=c(0,3,0,0))
+  plot.new()
+  
+  
+    wordcloud(temp$temp,temp$Freq,max.words =100, main="Title" , min.freq = 4
         , random.order = FALSE, rot.per=0.35, colors=brewer.pal(8, "Dark2"))
+    
+    text(x=0, y=0.5, unick, col=jColors[unick],cex=2,srt=90, font=2)
+    
+    cat("  \n")
+    
+    
     }
 
       
@@ -209,8 +216,8 @@ ggplot(data=msgpernickWEEKK,aes(reorder(unick,n),n)) + geom_bar(stat='identity')
 
 
 
-### Word Cloud (last week - top 500)
-```{r wordcloud, fig.height = 10, fig.width = 10, dpi=200}
+### Word Cloud (last week - top 500 - min 5 times)
+```{r wordcloud, fig.height = 8, fig.width = 8, dpi=150}
 
 
 
@@ -236,7 +243,7 @@ temp <- temp[nchar(temp$temp) > 3,]
 
 
   wordcloud(temp$temp,temp$Freq,max.words =500 
-        ,random.order=FALSE, rot.per=0.35, 
+        ,random.order=FALSE, rot.per=0.35, min.freq = 4,
           colors=brewer.pal(8, "Dark2"))
     
     

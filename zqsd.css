@@ -3,4 +3,9 @@ body {
   margin: auto;
   padding: 1em;
   line-height: 20px ; 
+
 }   
+
+img{
+    box-shadow: 2px 0px 7px black;
+}
