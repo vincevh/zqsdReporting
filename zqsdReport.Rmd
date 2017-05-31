@@ -49,14 +49,14 @@ ggplot(data=msgpernickperweekday,aes(reorder(unick,n),n,fill=weekday)) + coord_f
 ```{r hgtscores}
 
 
-jColors <- usercolors$color
-names(jColors) <- usercolors$unick
+jColors <- usercolors$color 
+ names(jColors) <- usercolors$unick
 
 
 
-ggplot(data=scoreshgt,aes(reorder(unick,hgtscore),hgtscore)) + geom_bar(stat='identity') + coord_flip() + ylab("HGT Score") + xlab("Username")+ ggtitle("HGT Scores per username") + aes(fill=unick)+ scale_fill_manual(values = jColors)+ guides(fill=FALSE)
-
-```
+# ggplot(data=scoreshgt,aes(reorder(unick,hgtscore),hgtscore)) + geom_bar(stat='identity') + coord_flip() + ylab("HGT Score") + xlab("Username")+ ggtitle("HGT Scores per username") + aes(fill=unick)+ scale_fill_manual(values = jColors)+ guides(fill=FALSE) 
+ 
+``` 
 
 
 ```{r perhourstats}
@@ -75,6 +75,17 @@ ggplot(data=msgpernickperhour, aes(x=hour,y=unick)) + geom_point(aes(size=n),pch
 
 
 ```
+
+
+```{r week evolution}
+
+msgperweekpernick <- count(messages, unick ,format(datetime,"%U"))
+names(msgperweekpernick) <- c("unick","weeknumber","count")
+ggplot(data=msgperweekpernick,aes(weeknumber,count,fill=unick)) + geom_bar(stat='identity')+ scale_fill_manual(values = jColors) + ggtitle("Number of messages per week & per nick") + xlab("Week Number") + ylab("Number of messages")
+
+
+```
+
 
 
 ```{r}
@@ -128,6 +139,13 @@ msgpernickWEEKK <- count(msgWEEK, unick)
 ggplot(data=msgpernickWEEKK,aes(reorder(unick,n),n)) + geom_bar(stat='identity') + coord_flip() + ylab("Number of messages") + xlab("Username")+ ggtitle("Most useless at work (previous week)") + aes(fill=unick)+ scale_fill_manual(values = jColors)+ guides(fill=FALSE)
 
 ```
+
+
+
+
+
+
+
 
 ### Word Cloud (last week)
 ```{r wordcloud}
