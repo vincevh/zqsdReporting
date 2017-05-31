@@ -10,6 +10,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(cache = FALSE)
+knitr::opts_chunk$set(fig.align = "center")
 source(file = "ETL.R")
 library(ggplot2)
 library(lubridate)
@@ -54,7 +55,7 @@ jColors <- usercolors$color
 
 
 
-# ggplot(data=scoreshgt,aes(reorder(unick,hgtscore),hgtscore)) + geom_bar(stat='identity') + coord_flip() + ylab("HGT Score") + xlab("Username")+ ggtitle("HGT Scores per username") + aes(fill=unick)+ scale_fill_manual(values = jColors)+ guides(fill=FALSE) 
+ggplot(data=scoreshgt,aes(reorder(unick,hgtscore),hgtscore)) + geom_bar(stat='identity') + coord_flip() + ylab("HGT Score") + xlab("Username")+ ggtitle("HGT Scores per username") + aes(fill=unick)+ scale_fill_manual(values = jColors)+ guides(fill=FALSE) 
  
 ``` 
 
@@ -64,9 +65,6 @@ jColors <- usercolors$color
 msgpernickperhour<- count(messages, unick ,hour(datetime))
 names(msgpernickperhour) <- c("unick","hour","n")
  
-#ggplot(data=msgpernickperhour, aes(hour,n, color=unick)) + geom_line() + ylab("# of messages") + ggtitle("Activity per hour") + scale_x_continuous(breaks=1:24)
- 
-
 
 
 ggplot(data=msgpernickperhour, aes(x=hour,y=unick)) + geom_point(aes(size=n),pch=21) + aes(color=unick,fill=unick) + scale_fill_manual(values = jColors)+ ylab("# of messages") + ggtitle("Activity per hour for the whole year") + scale_x_continuous(breaks=1:24) + guides(color=FALSE,fill=FALSE)
@@ -100,10 +98,74 @@ ggplot(toplot,aes(x = Nick,y=averagecharpermsg)) + geom_bar(stat="identity") + c
 ```
 
 
+## Word Cloud (2017) per nick
+
+```{r wordcloudloop, fig.height = 8, fig.width = 8, dpi=200}
+
+stopwordsFR <-as.character(read.csv("resources/stopwords-fr.txt", fileEncoding = "UTF-8", header=FALSE)$V1  )
+
+search  = "çñÄÂÀÁäâàáËÊÈÉéèëêÏÎÌÍïîìíÖÔÒÓöôòóÜÛÙÚüûùúµ"
+replace = "cnaaaaaaaeeeeeeeeeiiiiiiiioooooooouuuuuuuuu"
+
+
+
+
+
+#loop on very unick
+    for (unick in  unique(messages$unick)){
+   msgClean <- messages[messages$unick==unick,]
+   
+   
+   
+   msgClean$msg <- tolower(chartr(search,replace,msgClean$msg))
+
+msgClean$msg <- str_replace_all(msgClean$msg, "[^[:alnum:]]", " ")
+
+temp <- (unlist(strsplit(msgClean$msg," ")))
+
+"%w/o%" <- function(x, y) x[!x %in% y] #--  x without y
+
+temp <- temp %w/o% stopwordsFR
+
+temp <- temp[temp!= ""]
+
+temp <- as.data.frame(table(temp))
+temp$temp <- as.character(temp$temp)
+
+
+temp <- temp[nchar(temp$temp) > 3,]
+
+
+
+
+   
+   
+   
+   
+  layout(matrix(c(1, 2), nrow=2), heights=c(1, 10))
+  par(mar=rep(0, 4))
+  plot.new()
+  text(x=0.5, y=0.5, unick, col=jColors[unick],cex=2)
+  
+    wordcloud(temp$temp,temp$Freq,max.words =100, main="Title" 
+        , random.order = FALSE, rot.per=0.35, colors=brewer.pal(8, "Dark2"))
+    }
+
+      
+
+```
+
+
+
+
 
 ```{r}
 mondayWeekMinus1 <- floor_date(Sys.Date()-7, "week")+1
 sundayWeekMinus1 <- floor_date(Sys.Date(), "week")
+
+##For test purposes - fake week-1
+#mondayWeekMinus1 <- as.Date("2017-05-01")
+#sundayWeekMinus1 <- as.Date("2017-05-07")
 
 ```
 
@@ -114,7 +176,7 @@ sundayWeekMinus1 <- floor_date(Sys.Date(), "week")
 
 ```{r lastweekactivity}
 
-msgWEEK <- messages[messages$datetime >=floor_date(Sys.Date()-7, "week")+1 & messages$datetime <=  floor_date(Sys.Date(), "week")+1 ,]
+msgWEEK <- messages[messages$datetime >=mondayWeekMinus1 & messages$datetime <=  sundayWeekMinus1 ,]
 
 
 msgpernickperhourWEEK <- count(msgWEEK, unick ,hour(datetime))
@@ -147,16 +209,12 @@ ggplot(data=msgpernickWEEKK,aes(reorder(unick,n),n)) + geom_bar(stat='identity')
 
 
 
-### Word Cloud (last week)
-```{r wordcloud}
+### Word Cloud (last week - top 500)
+```{r wordcloud, fig.height = 10, fig.width = 10, dpi=200}
 
-stopwordsFR <-as.character(read.csv("resources/stopwords-fr.txt", fileEncoding = "UTF-8", header=FALSE)$V1  )
 
-search  = "çñÄÂÀÁäâàáËÊÈÉéèëêÏÎÌÍïîìíÖÔÒÓöôòóÜÛÙÚüûùúµ"
-replace = "cnaaaaaaaeeeeeeeeeiiiiiiiioooooooouuuuuuuuu"
 
 msgWEEKClean <- msgWEEK
-
 msgWEEKClean$msg <- tolower(chartr(search,replace,msgWEEKClean$msg))
 
 msgWEEKClean$msg <- str_replace_all(msgWEEKClean$msg, "[^[:alnum:]]", " ")
@@ -175,11 +233,14 @@ temp$temp <- as.character(temp$temp)
 
 temp <- temp[nchar(temp$temp) > 3,]
 
- wordcloud(temp$temp,temp$Freq,max.words =100
+
+
+  wordcloud(temp$temp,temp$Freq,max.words =500 
         ,random.order=FALSE, rot.per=0.35, 
           colors=brewer.pal(8, "Dark2"))
+    
+    
 
-#head(temp[order(-temp$Freq),],n = 50)
 ```
 
 Last update: `r Sys.time()`  

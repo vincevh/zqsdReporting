@@ -12,7 +12,7 @@ load.msgs <- function(yeartoload){
   
   #variables
   yearstoanalyse <- yeartoload
-  unicksToIgnore <- c("nicobot")
+  unicksToIgnore <- c("nicobot","slackbot")
   
   #pre-processing file
   
