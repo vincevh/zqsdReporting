@@ -17,6 +17,9 @@
 1 Slack API for user colors and characteristics
 2 Flat files
 
+## Deployment
+
+
 
 ## Publication
 html file can be found here: http://rpubs.com/B3nZ3n/zqsd 

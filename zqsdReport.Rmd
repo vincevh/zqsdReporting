@@ -3,15 +3,16 @@ title: 'Slack zqsd #general Stats'
 output:
   html_document:
     css: zqsd.css
+    code_folding: hide
   word_document: default
 ---
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(cache = FALSE)
 knitr::opts_chunk$set(fig.align = "center")
-source(file = "ETL.R")
+source(file = "ETL.R", encoding = "utf-8")
 library(ggplot2)
 library(lubridate)
 library(wordcloud)
@@ -105,38 +106,15 @@ ggplot(toplot,aes(x = Nick,y=averagecharpermsg)) + geom_bar(stat="identity") + c
 
 ```{r wordcloudloop, fig.height = 7, fig.width = 8, dpi=300, results='asis'}
 
-stopwordsFR <-as.character(read.csv("resources/stopwords-fr.txt", fileEncoding = "UTF-8", header=FALSE)$V1  )
-
-search  = "çñÄÂÀÁäâàáËÊÈÉéèëêÏÎÌÍïîìíÖÔÒÓöôòóÜÛÙÚüûùúµ"
-replace = "cnaaaaaaaeeeeeeeeeiiiiiiiioooooooouuuuuuuuu"
-
-
-
-
 
 #loop on very unick
     for (unick in  unique(messages$unick)){
-   msgClean <- messages[messages$unick==unick,]
+      
+   temp <- clean.msgs(messages[messages$unick==unick,])
    
    
    
-   msgClean$msg <- tolower(chartr(search,replace,msgClean$msg))
 
-msgClean$msg <- str_replace_all(msgClean$msg, "[^[:alnum:]]", " ")
-
-temp <- (unlist(strsplit(msgClean$msg," ")))
-
-"%w/o%" <- function(x, y) x[!x %in% y] #--  x without y
-
-temp <- temp %w/o% stopwordsFR
-
-temp <- temp[temp!= ""]
-
-temp <- as.data.frame(table(temp))
-temp$temp <- as.character(temp$temp)
-
-
-temp <- temp[nchar(temp$temp) > 3,]
 
   cat("  \n###",  unick, "  \n")
 
@@ -221,28 +199,9 @@ ggplot(data=msgpernickWEEKK,aes(reorder(unick,n),n)) + geom_bar(stat='identity')
 
 
 
-msgWEEKClean <- msgWEEK
-msgWEEKClean$msg <- tolower(chartr(search,replace,msgWEEKClean$msg))
+temp <- clean.msgs(msgWEEK)
 
-msgWEEKClean$msg <- str_replace_all(msgWEEKClean$msg, "[^[:alnum:]]", " ")
-
-temp <- (unlist(strsplit(msgWEEKClean$msg," ")))
-
-"%w/o%" <- function(x, y) x[!x %in% y] #--  x without y
-
-temp <- temp %w/o% stopwordsFR
-
-temp <- temp[temp!= ""]
-
-temp <- as.data.frame(table(temp))
-temp$temp <- as.character(temp$temp)
-
-
-temp <- temp[nchar(temp$temp) > 3,]
-
-
-
-  wordcloud(temp$temp,temp$Freq,max.words =500 
+wordcloud(temp$temp,temp$Freq,max.words =500 
         ,random.order=FALSE, rot.per=0.35, min.freq = 4,
           colors=brewer.pal(8, "Dark2"))
     

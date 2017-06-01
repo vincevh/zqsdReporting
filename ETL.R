@@ -102,7 +102,33 @@ load.usercolors <- function(){
 
 
 
-
+clean.msgs <- function(messagesToClean){
+  stopwordsFR <-as.character(read.csv("resources/stopwords-fr.txt", fileEncoding = "UTF-8", header=FALSE)$V1  )
+  
+  search  = "çñÄÂÀÁäâàáËÊÈÉéèëêÏÎÌÍïîìíÖÔÒÓöôòóÜÛÙÚüûùúµ"
+  replace = "cnaaaaaaaeeeeeeeeeiiiiiiiioooooooouuuuuuuuu"
+  
+  "%w/o%" <- function(x, y) x[!x %in% y] #--  x without y
+  
+  
+  messagesToClean$msg <- tolower(chartr(search,replace,messagesToClean$msg))
+  
+  messagesToClean$msg <- str_replace_all(messagesToClean$msg, "[^[:alnum:]]", " ")
+  
+  temp <- (unlist(strsplit(messagesToClean$msg," ")))
+  
+  
+  
+  temp <- temp %w/o% stopwordsFR
+  
+  temp <- temp[temp!= ""]
+  
+  temp <- as.data.frame(table(temp))
+  temp$temp <- as.character(temp$temp)
+  
+  
+  temp <- temp[nchar(temp$temp) > 3,]
+}
 
 
 
