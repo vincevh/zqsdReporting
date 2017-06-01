@@ -12,49 +12,57 @@ library(pander)
 yeartoload <- year(Sys.Date())
 messages <- load.msgs(yeartoload)
 scoreshgt <- load.hgtscores(yeartoload)
-usercolors <- load.usercolors() 
+usercolors <- load.usercolors()
 
 
 
-jColors <- usercolors$color 
+jColors <- usercolors$color
 names(jColors) <- usercolors$unick
 
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
+  session$sendCustomMessage(type = 'infomessage',
+                            message =  "Beta. Slowness should be expected.")
   
-  loadMsgs <- reactive({
-   
-    
-    # Change when the "update" button is pressed...
-    input$update
-    
-    isolate({
-    withProgress({
-      setProgress(message = "Loading messages ...")
-     
-      
-      if(input$unick == "*"){
-        temp <- clean.msgs(messages[messages$datetime >=input$start & messages$datetime <=  input$end ,])
-        
-      }else
-      {
-        temp <- clean.msgs(messages[messages$unick==input$unick & messages$datetime >=input$start & messages$datetime <=  input$end,])
-      }
-    })
-    
-    
-    }) 
-    })
-  
-   
   output$wordPlot <- renderPlot({
-
-    temp <- loadMsgs()
-
-    wordcloud(temp$temp,temp$Freq,max.words = input$max, min.freq = input$freq, scale=c(4,0.5),
-               random.order = FALSE, rot.per=0.35, colors=brewer.pal(8, "Dark2"))
-   
-   
+    ##TODO: clean.msgs should be improved, cleaning the data first and not at each run
+    if (input$unick == "*") {
+      temp <- clean.msgs(messages[messages$datetime >= input$start
+                                  & messages$datetime <=  input$end ,])
+      
+    } else
+    {
+      temp <- clean.msgs(messages[messages$unick == input$unick
+                                  & messages$datetime >= input$start
+                                  & messages$datetime <= input$end,])
+      
+    }
     
-  }, height = 700, width = 700 )
+    if (max(temp$Freq) < input$freq) {
+      session$sendCustomMessage(type = 'infomessage',
+                                message =  "Freq too high, setting it back to the max value")
+      
+      updateSliderInput(
+        session = session,
+        inputId = "freq",
+        value = max(temp$Freq)
+      )
+    }
+    
+    wordcloud_rep <- repeatable(wordcloud)
+    
+    wordcloud_rep(
+      temp$temp,
+      temp$Freq,
+      max.words = input$max,
+      min.freq = input$freq,
+      random.order = FALSE,
+      rot.per = 0.35,
+      colors = brewer.pal(8, "Dark2")
+    )
+    
+    
+    
+  }, height = 700, width = 700)
+  
   
 })
