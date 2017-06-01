@@ -100,46 +100,6 @@ ggplot(toplot,aes(x = Nick,y=averagecharpermsg)) + geom_bar(stat="identity") + c
 ```
 
 
-## Word Cloud (2017) per nick  
-
-
-
-```{r wordcloudloop, fig.height = 7, fig.width = 8, dpi=300, results='asis'}
-
-
-#loop on very unick
-    for (unick in  unique(messages$unick)){
-      
-   temp <- clean.msgs(messages[messages$unick==unick,])
-   
-   
-   
-
-
-  cat("  \n###",  unick, "  \n")
-
-  
-  
-   
-  layout(matrix(c(1, 2),ncol = 2), widths = c(1, 10))
-  par(mar=c(0,3,0,0))
-  plot.new()
-  
-  
-    wordcloud(temp$temp,temp$Freq,max.words =100, main="Title" , min.freq = 4
-        , random.order = FALSE, rot.per=0.35, colors=brewer.pal(8, "Dark2"))
-    
-    text(x=0, y=0.5, unick, col=jColors[unick],cex=2,srt=90, font=2)
-    
-    cat("  \n")
-    
-    
-    }
-
-      
-
-```
-
 
 
 

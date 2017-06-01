@@ -12,7 +12,7 @@ shinyUI(fluidPage(
 
   sidebarLayout(
     sidebarPanel(
-       selectInput("unick", label="Select username", choices = append(c("*"),usercolors$unick)),
+       selectInput("unick", label="Select username", choices = append(c("*"),usercolors$unick[!usercolors$color=="#FFFFFF"])),
        dateInput("start", label="Begin Date",format = "dd-mm-yyyy", value = "2017-01-01", min = "2017-01-01", max = Sys.Date(),weekstart = 1,
                  language = "fr"),
        dateInput("end", label="End Date",format = "dd-mm-yyyy", value = Sys.Date(), min = "2017-01-01", max = Sys.Date(),weekstart = 1,
