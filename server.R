@@ -29,9 +29,12 @@ msgWEEK <-  messages[messages$datetime >= mondayWeekMinus1 &
              messages$datetime <=  sundayWeekMinus1 , ]
 
 
+
+
+
 shinyServer(function(input, output, session) {
   session$sendCustomMessage(type = 'infomessage',
-                            message =  "Beta. Slowness should be expected.")
+                            message =  "Beta. Slowness should be expected. Please wait 30 sec for the 1st charts to appear")
   
   
   output$wordPlot <- renderPlot({

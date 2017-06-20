@@ -3,9 +3,13 @@ library(plyr)
 library(dplyr)
 library(openxlsx)
 library(yaml)
+library(jsonlite)
 
 config <- yaml.load_file("resources/config.yml")
 slackToken = config$security$tokenSlack
+
+
+url= paste0("https://slack.com/api/users.list?token=", slackToken,sep="")
 
 load.msgs <- function(yeartoload){
   
@@ -84,8 +88,7 @@ load.hgtscores <-  function(yeartoload){
 
 
 load.usercolors <- function(){
-  library(jsonlite)
-  url= paste0("https://slack.com/api/users.list?token=", slackToken,sep="")
+
   
   
   uniquenicktoidfile <- read.xlsx(xlsxFile = "nicks.xlsx", sheet = 2,colNames = FALSE)
@@ -99,6 +102,10 @@ load.usercolors <- function(){
   merged <- merge(merged,uniquenicktoidfile,by="user__id")
   merged[,2:3]
 }
+
+
+
+
 
 
 
