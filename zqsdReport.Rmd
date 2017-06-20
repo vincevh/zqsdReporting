@@ -70,7 +70,7 @@ names(msgpernickperhour) <- c("unick","hour","n")
  
 
 
-p <-  ggplot(data=msgpernickperhour, aes(x=hour,y=unick)) + geom_point(aes(size=n),pch=21) + aes(color=unick,fill=unick) + scale_fill_manual(values = jColors)+ ylab("# of messages") + ggtitle("Activity per hour for the whole year") + scale_x_continuous(breaks=1:24) + guides(color=FALSE,fill=FALSE)
+p <-  ggplot(data=msgpernickperhour, aes(x=hour,y=unick)) + geom_point(aes(size=n),pch=21,stroke=0) + aes(fill=unick) + scale_fill_manual(values = jColors)+ ggtitle("Activity per hour for the whole year") + scale_x_continuous(breaks=1:24) + guides(color=FALSE,fill=FALSE)
  
 ggplotly(p,width=800,height=600)
 
@@ -131,7 +131,7 @@ msgpernickperhourWEEK <- count(msgWEEK, unick ,hour(datetime))
 names(msgpernickperhourWEEK) <- c("unick","hour","n")
 
 
-p <- ggplot(data=msgpernickperhourWEEK, aes(x=hour,y=unick)) + geom_point(aes(size=n),pch=21) + aes(color=unick,fill=unick) + scale_fill_manual(values = jColors)+ ylab("# of messages") + ggtitle("Activity per hour of previous week")  + scale_x_continuous(breaks=1:24) + guides(color=FALSE,fill=FALSE)
+p <- ggplot(data=msgpernickperhourWEEK, aes(x=hour,y=unick)) + geom_point(aes(size=n),pch=21,stroke=0) + aes(fill=unick) + scale_fill_manual(values = jColors)+ ggtitle("Activity per hour of previous week")  + scale_x_continuous(breaks=1:24) + guides(color=FALSE,fill=FALSE)
 
 ggplotly(p,width=800,height=600)
 
