@@ -21,6 +21,7 @@ library(tm)
 library(SnowballC)
 library(RColorBrewer)
 library(pander)
+library(plotly)
 yeartoload <- year(Sys.Date())
 messages <- load.msgs(yeartoload)
 scoreshgt <- load.hgtscores(yeartoload)
@@ -41,9 +42,9 @@ names(msgpernickperweekday) <- c("unick","weekday","n")
 msgpernickperweekday$weekday <- factor(msgpernickperweekday$weekday, levels = c("lundi","mardi","mercredi","jeudi","vendredi","samedi","dimanche"))
 
 
-ggplot(data=msgpernickperweekday,aes(reorder(unick,n),n,fill=weekday)) + coord_flip() + geom_bar(stat="identity") + ggtitle(sprintf("Number of messages per weekday for %s", (yeartoload))) + xlab("Username") + ylab("# of messages") + scale_fill_brewer(palette = "Blues")
+p <- ggplot(data=msgpernickperweekday,aes(reorder(unick,n),n,fill=weekday)) + coord_flip() + geom_bar(stat="identity") + ggtitle(sprintf("Number of messages per weekday for %s", (yeartoload))) + xlab("Username") + ylab("# of messages") + scale_fill_brewer(palette = "Blues")
 
-
+ggplotly(p,width=800,height=600)
 
 
 ```
@@ -53,11 +54,11 @@ ggplot(data=msgpernickperweekday,aes(reorder(unick,n),n,fill=weekday)) + coord_f
 
 
 jColors <- usercolors$color 
- names(jColors) <- usercolors$unick
+names(jColors) <- usercolors$unick
 
 
 
-ggplot(data=scoreshgt,aes(reorder(unick,hgtscore),hgtscore)) + geom_bar(stat='identity') + coord_flip() + ylab("HGT Score") + xlab("Username")+ ggtitle("HGT Scores per username") + aes(fill=unick)+ scale_fill_manual(values = jColors)+ guides(fill=FALSE) 
+#ggplot(data=scoreshgt,aes(reorder(unick,hgtscore),hgtscore)) + geom_bar(stat='identity') + coord_flip() + ylab("HGT Score") + xlab("Username")+ ggtitle("HGT Scores per username") + aes(fill=unick)+ scale_fill_manual(values = jColors)+ guides(fill=FALSE) 
  
 ``` 
 
@@ -69,9 +70,9 @@ names(msgpernickperhour) <- c("unick","hour","n")
  
 
 
-ggplot(data=msgpernickperhour, aes(x=hour,y=unick)) + geom_point(aes(size=n),pch=21) + aes(color=unick,fill=unick) + scale_fill_manual(values = jColors)+ ylab("# of messages") + ggtitle("Activity per hour for the whole year") + scale_x_continuous(breaks=1:24) + guides(color=FALSE,fill=FALSE)
+p <-  ggplot(data=msgpernickperhour, aes(x=hour,y=unick)) + geom_point(aes(size=n),pch=21) + aes(color=unick,fill=unick) + scale_fill_manual(values = jColors)+ ylab("# of messages") + ggtitle("Activity per hour for the whole year") + scale_x_continuous(breaks=1:24) + guides(color=FALSE,fill=FALSE)
  
-
+ggplotly(p,width=800,height=600)
 
 
 ```
@@ -81,9 +82,9 @@ ggplot(data=msgpernickperhour, aes(x=hour,y=unick)) + geom_point(aes(size=n),pch
 
 msgperweekpernick <- count(messages, unick ,format(datetime,"%U"))
 names(msgperweekpernick) <- c("unick","weeknumber","count")
-ggplot(data=msgperweekpernick,aes(weeknumber,count,fill=unick)) + geom_bar(stat='identity')+ scale_fill_manual(values = jColors) + ggtitle("Number of messages per week & per nick") + xlab("Week Number") + ylab("Number of messages")
+p <- ggplot(data=msgperweekpernick,aes(weeknumber,count,fill=unick)) + geom_bar(stat='identity')+ scale_fill_manual(values = jColors) + ggtitle("Number of messages per week & per nick") + xlab("Week Number") + ylab("Number of messages")
 
-
+ggplotly(p,width=800,height=600)
 ```
 
 
@@ -95,7 +96,8 @@ messages2 <- messages2[,c(2,4)]
 toplot <- aggregate(messages2$msg, by=list(messages2$unick), FUN="mean")
 toplot <- toplot[,1:2]
 names(toplot) <- c("Nick","averagecharpermsg")
-ggplot(toplot,aes(x = Nick,y=averagecharpermsg)) + geom_bar(stat="identity") + coord_flip() + aes(fill=Nick) + scale_fill_manual(values = jColors) + guides(fill=FALSE) + ggtitle("Average number of chars per message") + xlab("Nick") + ylab("Average chars in message")
+p <- ggplot(toplot,aes(x = Nick,y=averagecharpermsg)) + geom_bar(stat="identity") + coord_flip() + aes(fill=Nick) + scale_fill_manual(values = jColors) + guides(fill=FALSE) + ggtitle("Average number of chars per message") + xlab("Nick") + ylab("Average chars in message")
+ggplotly(p,width=800,height=600)
 
 ```
 
@@ -129,9 +131,9 @@ msgpernickperhourWEEK <- count(msgWEEK, unick ,hour(datetime))
 names(msgpernickperhourWEEK) <- c("unick","hour","n")
 
 
-ggplot(data=msgpernickperhourWEEK, aes(x=hour,y=unick)) + geom_point(aes(size=n),pch=21) + aes(color=unick,fill=unick) + scale_fill_manual(values = jColors)+ ylab("# of messages") + ggtitle("Activity per hour of previous week")  + scale_x_continuous(breaks=1:24) + guides(color=FALSE,fill=FALSE)
+p <- ggplot(data=msgpernickperhourWEEK, aes(x=hour,y=unick)) + geom_point(aes(size=n),pch=21) + aes(color=unick,fill=unick) + scale_fill_manual(values = jColors)+ ylab("# of messages") + ggtitle("Activity per hour of previous week")  + scale_x_continuous(breaks=1:24) + guides(color=FALSE,fill=FALSE)
 
-
+ggplotly(p,width=800,height=600)
 
 
 ```
@@ -143,7 +145,9 @@ ggplot(data=msgpernickperhourWEEK, aes(x=hour,y=unick)) + geom_point(aes(size=n)
 msgpernickWEEKK <- count(msgWEEK, unick)
 
 
-ggplot(data=msgpernickWEEKK,aes(reorder(unick,n),n)) + geom_bar(stat='identity') + coord_flip() + ylab("Number of messages") + xlab("Username")+ ggtitle("Most useless at work (previous week)") + aes(fill=unick)+ scale_fill_manual(values = jColors)+ guides(fill=FALSE)
+p <- ggplot(data=msgpernickWEEKK,aes(reorder(unick,n),n)) + geom_bar(stat='identity') + coord_flip() + ylab("Number of messages") + xlab("Username")+ ggtitle("Most useless at work (previous week)") + aes(fill=unick)+ scale_fill_manual(values = jColors)+ guides(fill=FALSE)
+
+ggplotly(p,width=800,height=600)
 
 ```
 
