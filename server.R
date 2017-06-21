@@ -85,7 +85,8 @@ shinyServer(function(input, output, session) {
      scale_fill_manual(values = jColors) +
      ggtitle("Activity per hour of previous week")  +
      scale_x_continuous(breaks = 1:24) +
-     guides(color = FALSE, fill = FALSE)
+     guides(color = FALSE, fill = FALSE) +
+    theme(plot.margin=unit(c(2,1,1,1),"cm"))
     
     ggplotly(p,
              width = 800,
@@ -105,7 +106,8 @@ shinyServer(function(input, output, session) {
      ggtitle("Most useless at work (previous week)") +
      aes(fill =unick) +
      scale_fill_manual(values = jColors)+
-     guides(fill = FALSE)
+     guides(fill = FALSE)+
+      theme(plot.margin=unit(c(2,1,1,1),"cm"))
     
     ggplotly(p,
              width = 800,
@@ -146,7 +148,8 @@ shinyServer(function(input, output, session) {
      ggtitle(sprintf("Number of messages per weekday for %s", (yeartoload))) +
      xlab("Username") +
      ylab("# of messages") +
-     scale_fill_brewer(palette = "Blues")
+     scale_fill_brewer(palette = "Blues")+
+      theme(plot.margin=unit(c(2,1,1,1),"cm"))
     
     ggplotly(p, width = 800, height = 600)
   })
@@ -163,7 +166,8 @@ shinyServer(function(input, output, session) {
      scale_fill_manual(values = jColors) +
      ggtitle("Activity per hour for the whole year") +
      scale_x_continuous(breaks = 1:24) +
-     guides(color = FALSE, fill = FALSE)
+     guides(color = FALSE, fill = FALSE)+
+      theme(plot.margin=unit(c(2,1,1,1),"cm"))
     
     ggplotly(p, width = 800, height = 600)
   })
@@ -179,7 +183,8 @@ shinyServer(function(input, output, session) {
      scale_fill_manual(values = jColors) +
      ggtitle("Number of messages per week & per nick") +
      xlab("Week Number")+
-     ylab("Number of messages")
+     ylab("Number of messages")+
+      theme(plot.margin=unit(c(2,1,1,1),"cm"))
     
     ggplotly(p, width = 800, height = 600)
   })
