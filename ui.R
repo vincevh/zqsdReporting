@@ -15,6 +15,7 @@ navbarPage(
   tabPanel("Weekly",
            fluidPage(
             fixedRow(
+               textOutput("LoadWeek"),
                plotlyOutput("chart1", height=600),
                plotlyOutput("chart2", height=600)
              )
@@ -25,6 +26,7 @@ navbarPage(
   tabPanel("Yearly",
            fluidPage(
              fluidRow(
+               textOutput("LoadYear"),
                plotlyOutput("chart6", height=600),
                plotlyOutput("chart5", height=600),
                plotlyOutput("chart4", height=600)

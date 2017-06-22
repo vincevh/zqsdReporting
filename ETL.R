@@ -7,6 +7,9 @@ library(jsonlite)
 
 config <- yaml.load_file("resources/config.yml")
 slackToken = config$security$tokenSlack
+zipURL = config$security$zipURL
+zipUser = config$security$zipUser
+zipMdp = config$security$zipMdp
 
 
 url= paste0("https://slack.com/api/users.list?token=", slackToken,sep="")
@@ -22,17 +25,27 @@ load.msgs <- function(yeartoload){
   
   #EXTRACT
   #loading file, not taking the 4th column wich is always the same
+  
+  temp <- tempfile()
+  download.file(zipURL,temp)
+  unzip(temp,"message.csv")
+  unlink(temp)
+  
+  x <- readLines("message.csv")
+  
+  y <- gsub( "\\\\\"", "\"\"", x )
+  
+  cat(y, file="message.csv", sep="\n")
+  
 
   messages <- fread("message.csv", sep = ",", header = FALSE, 
                     encoding="UTF-8",
                     colClasses = c('character','factor','character','NULL','character'),
                     col.names = c("id","nick","msg","datetime"))
   
+  
   nickschangefile <- read.xlsx(xlsxFile = "nicks.xlsx")
   uniquenicktoidfile <- read.xlsx(xlsxFile = "nicks.xlsx", sheet = 2,colNames = FALSE)
-  
-  
-  
   
   
   #TRANSFORM

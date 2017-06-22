@@ -36,6 +36,15 @@ shinyServer(function(input, output, session) {
   session$sendCustomMessage(type = 'infomessage',
                             message =  "Beta. Slowness should be expected. Please wait 30 sec for the 1st charts to appear")
   
+  output$LoadWeek<-  renderText({ 
+    paste("From:",mondayWeekMinus1, "To:",sundayWeekMinus1, sep=" ")
+  })
+  
+  output$LoadYear<-  renderText({ 
+    paste("Last message in db: ", max(messages$datetime), sep=" ")
+    
+  })
+  
   
   output$wordPlot <- renderPlot({
     ##TODO: clean.msgs should be improved, cleaning the data first and not at each run
