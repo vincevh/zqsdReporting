@@ -43,9 +43,14 @@ load.msgs <- function(yeartoload){
                     colClasses = c('character','factor','character','NULL','character'),
                     col.names = c("id","nick","msg","datetime"))
   
+  dataAPI <- fromJSON(url)
+  uniquenicktoidfile <- dataAPI$members[!dataAPI$members$deleted,c("id","name")]
   
-  nickschangefile <- read.xlsx(xlsxFile = "nicks.xlsx")
-  uniquenicktoidfile <- read.xlsx(xlsxFile = "nicks.xlsx", sheet = 2,colNames = FALSE)
+  
+ 
+  
+  
+  nickschangefile <- flatten(stream_in(file("nick_change.log")))
   
   
   #TRANSFORM
@@ -59,12 +64,12 @@ load.msgs <- function(yeartoload){
   
   
   #replacing nick by the user id and then by the fixed nickname from nicks.xlsx sheet two
-  names(uniquenicktoidfile) <- c("user__id","unick")
+  names(uniquenicktoidfile) <- c("user.id","unick")
   
-  mappingnickstoid <- unique(nickschangefile[,c("user__id","user__name")])
+  mappingnickstoid <- unique(nickschangefile[,c("user.id","user.name")])
   ##this next line is to add user who didnt had any changes in their profile,
   ##so they are not in the nick changes file
-  names(mappingnickstoid) <- c("user__id","unick")
+  names(mappingnickstoid) <- c("user.id","unick")
   mappingnickstoid <- unique(rbind(mappingnickstoid, uniquenicktoidfile))
   
   
@@ -88,32 +93,24 @@ load.msgs <- function(yeartoload){
 }
 
 
-load.hgtscores <-  function(yeartoload){
-  scoresHGT <- read.csv(file="scoresHGT2017.csv",col.names = c("user__id","hgtscore"))
-  uniquenicktoidfile <- read.xlsx(xlsxFile = "nicks.xlsx", sheet = 2,colNames = FALSE)
-  names(uniquenicktoidfile) <- c("user__id","unick")
-  
-  scoresHGT <- merge(scoresHGT,uniquenicktoidfile)
-  scoresHGT <- scoresHGT[,2:3]
-  
-}
+# load.hgtscores <-  function(yeartoload){
+#   scoresHGT <- read.csv(file="scoresHGT2017.csv",col.names = c("user.id","hgtscore"))
+#   uniquenicktoidfile <- read.xlsx(xlsxFile = "nicks.xlsx", sheet = 2,colNames = FALSE)
+#   names(uniquenicktoidfile) <- c("user.id","unick")
+#   
+#   scoresHGT <- merge(scoresHGT,uniquenicktoidfile)
+#   scoresHGT <- scoresHGT[,2:3]
+#   
+# }
 
 
 
 load.usercolors <- function(){
-
-  
-  
-  uniquenicktoidfile <- read.xlsx(xlsxFile = "nicks.xlsx", sheet = 2,colNames = FALSE)
-  names(uniquenicktoidfile) <- c("user__id","unick")
   dataAPI <- fromJSON(url)
-  merged <- data.frame(dataAPI$members$id,dataAPI$members$color)
-  names(merged)<-c("user__id","color")
-  merged <- transform(merged, color = ifelse(is.na(color), "FFFFFF", as.character(color)))
-  merged$color <- paste0("#",merged$color,sep="")
-  
-  merged <- merge(merged,uniquenicktoidfile,by="user__id")
-  merged[,2:3]
+  toreturn <- dataAPI$members[!dataAPI$members$deleted,c("name","color")]
+  toreturn$color <- paste0("#",toreturn$color)
+  names(toreturn)<- c("unick","color")
+  toreturn
 }
 
 

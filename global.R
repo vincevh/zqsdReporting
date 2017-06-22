@@ -20,7 +20,7 @@ library(googleVis)
 yeartoload <- year(Sys.Date())
 
 messages <- load.msgs(yeartoload)
-scoreshgt <- load.hgtscores(yeartoload)
+#scoreshgt <- load.hgtscores(yeartoload)
 
 usercolors <- load.usercolors()
 jColors <- usercolors$color
