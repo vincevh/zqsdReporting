@@ -106,7 +106,11 @@ shinyServer(function(input, output, session) {
   
   
   output$messages = renderDataTable({
-    messages[, c("datetime", "unick", "msg")]
+    datatable(
+    messages[, c("datetime", "unick", "msg")],
+    options = list(
+      pageLength = 100, order = list(1, 'desc')
+    ))
   })
   
 

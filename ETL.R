@@ -29,10 +29,10 @@ load.msgs <- function(yeartoload){
   #EXTRACT
   #loading file, not taking the 4th column wich is always the same
   
-  # temp <- tempfile()
-  # download.file(zipURL,temp)
-  # unzip(temp,"message.csv")
-  # unlink(temp)
+  temp <- tempfile()
+  download.file(zipURL,temp)
+  unzip(temp,"message.csv")
+  unlink(temp)
   
   x <- readLines("message.csv")
   
