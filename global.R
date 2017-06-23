@@ -1,26 +1,27 @@
 
-cat("APP STARTED")
+cat(paste0(Sys.time(), " APP STARTED"))
 
 source(file = "ETL.R", encoding = "utf-8")
 Sys.setlocale("LC_ALL", locale = "French_Belgium.1252")
 
+suppressPackageStartupMessages({
 library(shiny)
-library(ggplot2)
 library(lubridate)
-library(wordcloud)
-library(stringr)
-library(tm)
-library(SnowballC)
-library(RColorBrewer)
-library(pander)
-library(plotly)
-library(googleVis)
-
+  library(shiny)
+  library(markdown)
+  library(ggplot2)
+  library(plotly)
+  library(wordcloud)
+  library(DT)
+  
+})
 
 yeartoload <- year(Sys.Date())
 
+cat(paste0(Sys.time(), " loading msgs"))
 messages <- load.msgs(yeartoload)
 #scoreshgt <- load.hgtscores(yeartoload)
+cat(paste0(Sys.time(), " end loading msgs"))
 
 usercolors <- load.usercolors()
 jColors <- usercolors$color

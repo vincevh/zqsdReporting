@@ -1,8 +1,5 @@
 source(file = "ETL.R", encoding = "utf-8")
-library(shiny)
-library(markdown)
-library(ggplot2)
-library(plotly)
+
 
 usercolors <- load.usercolors()
 
@@ -86,7 +83,15 @@ navbarPage(
                    )
                  ),
                  mainPanel(plotOutput("wordPlot"))
+               ),
+               
+               fluidRow(
+                 column(12, dataTableOutput('wordCloudData')
+                 )
                )
+               
+               
+               
            )),
   
   

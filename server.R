@@ -39,17 +39,26 @@ shinyServer(function(input, output, session) {
       )
     }
     
+    output$wordCloudData <-renderDataTable(
+      datatable(
+        temp, options = list(
+          pageLength = 15, order = list(2, 'desc')
+        )
+      )
+    )
+    
+    
     wordcloud_rep <- repeatable(wordcloud)
     
     wordcloud_rep(
-      temp$temp,
+      temp$Word,
       temp$Freq,
       max.words = input$max,
       min.freq = input$freq,
       random.order = FALSE,
       rot.per = 0.35,
       colors = brewer.pal(8, "Dark2")
-    )}, height = 700, width = 700)
+    )}, height = 600, width = 600)
   
   
   
@@ -100,7 +109,7 @@ shinyServer(function(input, output, session) {
     messages[, c("datetime", "unick", "msg")]
   })
   
-  
+
   
   output$chart4 <- renderPlotly({
     msgpernickperweekday <- count(messages, unick , format(datetime, "%A"))

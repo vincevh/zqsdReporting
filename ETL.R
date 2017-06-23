@@ -1,9 +1,12 @@
+suppressPackageStartupMessages({
 library(data.table)
 library(plyr)
 library(dplyr)
 library(openxlsx)
 library(yaml)
 library(jsonlite)
+library(stringr)
+})
 
 config <- yaml.load_file("resources/config.yml")
 slackToken = config$security$tokenSlack
@@ -26,10 +29,10 @@ load.msgs <- function(yeartoload){
   #EXTRACT
   #loading file, not taking the 4th column wich is always the same
   
-  temp <- tempfile()
-  download.file(zipURL,temp)
-  unzip(temp,"message.csv")
-  unlink(temp)
+  # temp <- tempfile()
+  # download.file(zipURL,temp)
+  # unzip(temp,"message.csv")
+  # unlink(temp)
   
   x <- readLines("message.csv")
   
@@ -116,9 +119,6 @@ load.usercolors <- function(){
 
 
 
-
-
-
 clean.msgs <- function(messagesToClean){
   stopwordsFR <-as.character(read.csv("resources/stopwords-fr.txt", fileEncoding = "UTF-8", header=FALSE)$V1  )
   
@@ -142,9 +142,10 @@ clean.msgs <- function(messagesToClean){
   
   temp <- as.data.frame(table(temp))
   temp$temp <- as.character(temp$temp)
+  names(temp) <- c("Word","Freq")
   
   
-  temp <- temp[nchar(temp$temp) > 3,]
+  temp <- temp[nchar(temp$Word) > 3,]
 }
 
 

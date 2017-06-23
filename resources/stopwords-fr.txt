@@ -1,4 +1,4 @@
-﻿2017
+2017
 2016
 2018
 2019
@@ -765,3 +765,12 @@ voila
 gros
 vraiment
 temps
+pour
+mais
+dans
+plus
+https
+vous
+avec
+elle
+
