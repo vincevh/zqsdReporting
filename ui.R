@@ -13,6 +13,7 @@ navbarPage(
            fluidPage(
             fixedRow(
                textOutput("LoadWeek"),
+               textOutput("LoadYear"),
                plotlyOutput("chart1", height=600),
                plotlyOutput("chart2", height=600)
              )
@@ -98,7 +99,7 @@ navbarPage(
   tabPanel("DEV",
            fluidPage(
              fixedRow(
-              "DEV"
+              "Feel free to suggest new charts"
              )
            )),
   
