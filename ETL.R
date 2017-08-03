@@ -120,6 +120,8 @@ load.usercolors <- function(){
 
 
 clean.msgs <- function(messagesToClean){
+  
+  ##todo: ne pas lire le fichier à chaque fois.. boulet va
   stopwordsFR <-as.character(read.csv("resources/stopwords-fr.txt", fileEncoding = "UTF-8", header=FALSE)$V1  )
   
   search  = "çñÄÂÀÁäâàáËÊÈÉéèëêÏÎÌÍïîìíÖÔÒÓöôòóÜÛÙÚüûùúµ"
@@ -129,8 +131,12 @@ clean.msgs <- function(messagesToClean){
   
   
   messagesToClean$msg <- tolower(chartr(search,replace,messagesToClean$msg))
+  #removing smilies
+  messagesToClean$msg <- str_replace_all(messagesToClean$msg, ":[A-Za-z_]*:", "")
   
   messagesToClean$msg <- str_replace_all(messagesToClean$msg, "[^[:alnum:]]", " ")
+  
+
   
   temp <- (unlist(strsplit(messagesToClean$msg," ")))
   

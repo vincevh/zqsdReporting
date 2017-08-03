@@ -6,7 +6,7 @@ shinyServer(function(input, output, session) {
                             message =  "Beta. Slowness should be expected. Please wait 30 sec for the 1st charts to appear")
   
   output$Load<-  renderText({ 
-    paste("From:",mondayWeekMinus1, "To:",sundayWeekMinus1,"Last message in db: ", max(messages$datetime), "If data is outdated. Plz blame paf.", sep=" ")
+    paste("From:",mondayWeekMinus1, "To:",sundayWeekMinus1,"Last message in db: ", max(messages$datetime), sep=" ")
   })
   
  
