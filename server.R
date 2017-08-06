@@ -120,13 +120,13 @@ shinyServer(function(input, output, session) {
       factor(
         msgpernickperweekday$weekday,
         levels = c(
-          "lundi",
-          "mardi",
-          "mercredi",
-          "jeudi",
-          "vendredi",
-          "samedi",
-          "dimanche"
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
         )
       )
     

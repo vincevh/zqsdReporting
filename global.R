@@ -2,7 +2,6 @@
 cat(paste0(Sys.time(), " APP STARTED"))
 
 source(file = "ETL.R", encoding = "utf-8")
-Sys.setlocale("LC_ALL", locale = "French_Belgium.1252")
 
 suppressPackageStartupMessages({
 library(shiny)
