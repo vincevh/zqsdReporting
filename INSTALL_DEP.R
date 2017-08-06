@@ -1,0 +1,27 @@
+##Installing all R dependencies
+
+install.packages("data.table")
+install.packages("devtools")
+install.packages("plyr")
+install.packages("dplyr")
+install.packages("openxlsx")
+install.packages("yaml")
+install.packages("shiny")
+install.packages("ggplot2")
+install.packages("lubridate")
+install.packages("wordcloud")
+install.packages("stringr")
+install.packages("tm")
+install.packages("SnowballC")
+install.packages("RColorBrewer")
+install.packages("pander")
+install.packages("plotly")
+install.packages("devtools")
+install.packages("tibble")
+install.packages("devtools")
+install.packages("markdown")
+devtools::install_github('hadley/ggplot2')
+install.packages("googleVis")
+install.packages("DT")
+
+
