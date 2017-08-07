@@ -6,4 +6,4 @@ docker run -d --rm -p 1337:1337 --name zqsdreporting -h zqsdreporting zqsdreport
 docker stop mynginx
 cd ~/zqsdReporting/nginx
 docker build -t mynginx .
-docker run -d -p 80:80 --name mynginx --rm --link zqsdreporting:zqsdreporting bdesmet/mynginx:latest
+docker run -d -p 80:80 --name mynginx --rm -v ~/myLoc:/usr/share/nginx/html/myLoc --link zqsdreporting:zqsdreporting bdesmet/mynginx:latest 
