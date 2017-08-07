@@ -12,6 +12,6 @@ RUN ln -s /usr/share/zoneinfo/Europe/Brussels /etc/localtime
 ADD . /app
 
 
-EXPOSE 80
+EXPOSE 1337
 
 CMD ["sh", "runRepApp.sh"]
