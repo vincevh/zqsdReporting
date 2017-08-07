@@ -1,1 +1,0 @@
-& 'C:\Program Files\R\R-3.4.0\bin\R.exe' -e  "shiny::runApp('.', port = 1337)"

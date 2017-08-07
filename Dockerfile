@@ -14,4 +14,4 @@ ADD . /app
 
 EXPOSE 1337
 
-CMD ["sh", "runRepApp.sh"]
+CMD R -e "shiny::runApp('.',host= '0.0.0.0', port = 1337)"
