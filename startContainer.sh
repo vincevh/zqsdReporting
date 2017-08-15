@@ -1,5 +1,6 @@
 docker stop zqsdreporting
 docker stop mynginx
+docker stop slackapi
 git pull
 cd shinyapp
 docker build -t zqsdreporting .
