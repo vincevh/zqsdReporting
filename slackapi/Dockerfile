@@ -1,8 +1,20 @@
-FROM trestletech/plumber
-MAINTAINER Docker User <docker@user.org>
+FROM r-base
 
-WORKDIR /app
+
+RUN apt-get update -qq && apt-get install -y \
+  git-core \
+  libssl-dev \
+  libcurl4-gnutls-dev
+
+RUN R -e 'install.packages(c("devtools"))'
+RUN R -e 'devtools::install_github("trestletech/plumber")'
 RUN R -e "install.packages('broom')"
 
+EXPOSE 8000
+
+WORKDIR /app
 ADD ./app /app
+
+
+ENTRYPOINT ["R", "-e", "pr <- plumber::plumb(commandArgs()[4]); pr$run(host='0.0.0.0', port=8000)"]
 CMD ["/app/slackAPI.R"]
