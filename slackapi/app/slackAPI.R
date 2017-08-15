@@ -1,7 +1,12 @@
 #' @post /slackAPI
-function(req,text){
+function(text){
 cat("RECIEVED MSG \n")
+cat(text)
 
-"bite"
+temp <- data.frame(paste("you said" ,text, " "))
+names(temp)<- "text"
+
+temp
+
 }
 
