@@ -5,7 +5,7 @@ cd shinyapp
 docker build -t zqsdreporting .
 docker run -d --rm -p 1337:1337 --name zqsdreporting -h zqsdreporting zqsdreporting
 cd ../slackapi
-docker build -t slackapi
+docker build -t slackapi .
 docker run -d --rm -p 8000:8000 --name slackapi -h slackapi slackapi
 cd ../nginx
 docker build -t mynginx .
