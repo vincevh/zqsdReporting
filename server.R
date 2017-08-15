@@ -176,5 +176,15 @@ shinyServer(function(input, output, session) {
     
     ggplotly(p, width = 800, height = 600)
   })
+  
+  
+  output$links <- renderDataTable({
+    datatable(
+      generateLinkTable( messages[grepl("http",messages$msg, ignore.cas=TRUE),] ),
+      options = list(
+        pageLength = 100, order = list(2, 'desc')
+      )
+    )
+  })
 
 })

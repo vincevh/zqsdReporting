@@ -94,12 +94,17 @@ navbarPage(
            )),
   
   
-  tabPanel("DEV",
-           fluidPage(
-             fixedRow(
-              "Feel free to suggest new charts"
-             )
-           )),
+  tabPanel("Links",
+           
+               
+               tabPanel("URLs current month",
+                        fluidPage(
+                          fixedRow(
+                            dataTableOutput('links')
+                          )
+                        ))
+             
+           ),
   
   
   navbarMenu("More",

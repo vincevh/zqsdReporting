@@ -155,4 +155,15 @@ clean.msgs <- function(messagesToClean){
 }
 
 
-
+generateLinkTable <- function(messagesURL){
+  url_pattern <- "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
+  
+  messagesURL$msg <- str_extract(messagesURL$msg, url_pattern)
+  messagesURL <- messagesURL[!grepl("zqsd",messagesURL$msg),]
+  messagesURL$msg <- sub(">","",messagesURL$msg)
+  messagesURL$month <-  format(messagesURL$datetime, "%m")
+  
+  messagesURL[messagesURL$month == currentMonthNumber,c("unick","msg")]
+  
+   
+}

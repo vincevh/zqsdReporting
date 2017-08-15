@@ -31,3 +31,5 @@ sundayWeekMinus1 <- floor_date(Sys.Date(), "week")
 
 msgWEEK <-  messages[messages$datetime >= mondayWeekMinus1 &
                        messages$datetime <=  sundayWeekMinus1 , ]
+
+currentMonthNumber <- format(Sys.Date(),"%m")
