@@ -1,5 +1,4 @@
-#* @get /slackAPI 
-  newGetQuote <- function(text){
-	cat(text)
-    return(text) 
-  } 
+#' @post /slackAPI
+function(req,text){
+text
+}
