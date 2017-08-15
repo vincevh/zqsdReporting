@@ -1,7 +1,7 @@
 #' @post /slackAPI
 function(req,text){
+cat("RECIEVED MSG \n")
 
-  list(a=12)
-text
+"bite"
 }
 
