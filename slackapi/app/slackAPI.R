@@ -1,26 +1,27 @@
 #' @post /slackAPI
 
 function(text,res){
-  cat("RECIEVED MSG \n")
-  cat("text=")
-  cat(text)
-  cat("\n end text \n")
-  
+
   request <- strsplit(text, "+",fixed = TRUE)[[1]]
   
   command <- request[2]
   
   if ( command == "echo") {
-    toReturn <- data.frame(paste("you said" ,request[3], " "))
+    toReturn <- data.frame(request[3])
+    
+    
   } else if ( command == "pushtotaunt") {
     toReturn <- data.frame("smb")
-  } else if ( command == "useless") {
-    toReturn <- data.frame("Most useless of the week is: xxx")
+    
+    
+  } else if ( command == "yesno") {
+    answers <- c("yes","no")
+    toReturn <- data.frame(answers[sample(1:2, 1)])
+    
   } else
-    toReturn <- data.frame("Command not found")
+    toReturn <- data.frame("Command not found. Commands: echo, pushtotaunt, yesno")
   
 
   names(toReturn)<- "text"
   res$body <- jsonlite::unbox(toReturn)
 }
-
