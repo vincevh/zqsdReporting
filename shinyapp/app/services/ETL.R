@@ -6,7 +6,6 @@ library(openxlsx)
 library(yaml)
 library(jsonlite)
 library(stringr)
-library(plumber)  
 })
 
 config <- yaml.load_file("resources/config.yml")
@@ -24,17 +23,17 @@ load.msgs <- function(yeartoload){
   
   temp <- tempfile()
   download.file(zipURL,temp)
-  unzip(temp,"message.csv")
+  unzip(temp,"message.csv",exdir = "input")
   unlink(temp)
   
   x <- readLines("input/message.csv")
   
   y <- gsub( "\\\\\"", "\"\"", x )
   
-  cat(y, file="message.csv", sep="\n")
+  cat(y, file="input/message.csv", sep="\n")
   
 
-  messages <- fread("message.csv", sep = ",", header = FALSE, 
+  messages <- fread("input/message.csv", sep = ",", header = FALSE, 
                     encoding="UTF-8",
                     colClasses = c('character','factor','character','NULL','character'),
                     col.names = c("id","nick","msg","datetime"))
