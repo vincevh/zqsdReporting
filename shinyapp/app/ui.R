@@ -1,4 +1,4 @@
-source(file = "ETL.R", encoding = "utf-8")
+source(file = "services/ETL.R", encoding = "utf-8")
 
 
 usercolors <- load.usercolors()
@@ -6,9 +6,8 @@ usercolors <- load.usercolors()
 
 
 navbarPage(
-  "#zqsd [BETA!]",
+  "#zqsd",
   
- 
   tabPanel("Weekly",
            fluidPage(
             fixedRow(
@@ -26,15 +25,13 @@ navbarPage(
                plotlyOutput("chart6", height=600),
                plotlyOutput("chart5", height=600),
                plotlyOutput("chart4", height=600)
-               #,plotlyOutput("chart7", height=600)
              )
            )),
   
   
-  
   tabPanel("WordCloud",
            fluidPage(
-               titlePanel("zqsd Word Cloud 2017 [BETA]"),
+               titlePanel("zqsd Word Cloud"),
                #js file is used to display pop up messages 
                singleton(tags$head(tags$script(src = "script.js"))),
 
@@ -88,22 +85,16 @@ navbarPage(
                  column(12, dataTableOutput('wordCloudData')
                  )
                )
-               
-               
-               
            )),
   
   
   tabPanel("Links",
-           
-               
                tabPanel("URLs current month",
                         fluidPage(
                           fixedRow(
                             dataTableOutput('links')
                           )
                         ))
-             
            ),
   
   
@@ -111,7 +102,7 @@ navbarPage(
              tabPanel("Messages archive",
                       dataTableOutput('messages')),
              tabPanel("About",
-                      fluidRow(includeMarkdown("README.md")
+                      fluidRow(includeMarkdown("../README.md")
                       )))
 
 )

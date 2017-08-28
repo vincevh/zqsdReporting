@@ -10,8 +10,8 @@ function(text,res){
     toReturn <- data.frame(request[3])
     
     
-  } else if ( command == "pushtotaunt") {
-    toReturn <- data.frame("smb")
+  } else if ( command == "useless") {
+    toReturn <- data.frame(request[3])
     
     
   } else if ( command == "yesno") {

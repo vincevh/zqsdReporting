@@ -1,25 +1,21 @@
-
 cat(paste0(Sys.time(), " APP STARTED"))
 
-source(file = "ETL.R", encoding = "utf-8")
+source(file = "services/ETL.R", encoding = "utf-8")
 
 suppressPackageStartupMessages({
-library(shiny)
-library(lubridate)
   library(shiny)
+  library(lubridate)
   library(markdown)
   library(ggplot2)
   library(plotly)
   library(wordcloud)
   library(DT)
-  
 })
 
 yeartoload <- year(Sys.Date())
 
 cat(paste0(Sys.time(), " loading msgs"))
 messages <- load.msgs(yeartoload)
-#scoreshgt <- load.hgtscores(yeartoload)
 cat(paste0(Sys.time(), " end loading msgs"))
 
 usercolors <- load.usercolors()

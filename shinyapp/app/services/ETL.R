@@ -6,6 +6,7 @@ library(openxlsx)
 library(yaml)
 library(jsonlite)
 library(stringr)
+library(plumber)  
 })
 
 config <- yaml.load_file("resources/config.yml")
@@ -19,22 +20,14 @@ url= paste0("https://slack.com/api/users.list?token=", slackToken,sep="")
 
 load.msgs <- function(yeartoload){
   
-  
-  #variables
-  yearstoanalyse <- yeartoload
   unicksToIgnore <- c("nicobot","slackbot","thu")
-  
-  #pre-processing file
-  
-  #EXTRACT
-  #loading file, not taking the 4th column wich is always the same
   
   temp <- tempfile()
   download.file(zipURL,temp)
   unzip(temp,"message.csv")
   unlink(temp)
   
-  x <- readLines("message.csv")
+  x <- readLines("input/message.csv")
   
   y <- gsub( "\\\\\"", "\"\"", x )
   
@@ -48,12 +41,8 @@ load.msgs <- function(yeartoload){
   
   dataAPI <- fromJSON(url)
   uniquenicktoidfile <- dataAPI$members[!dataAPI$members$deleted,c("id","name")]
-  
-  
  
-  
-  
-  nickschangefile <- flatten(stream_in(file("nick_change.log")))
+  nickschangefile <- flatten(stream_in(file("input/nick_change.log")))
   
   
   #TRANSFORM
@@ -62,7 +51,7 @@ load.msgs <- function(yeartoload){
   
   #filtering only data for one year (as defined in yeartoanalyse variable)
   
-  messages <- filter(messages, format(datetime,"%Y") %in% yearstoanalyse)
+  messages <- filter(messages, format(datetime,"%Y") %in% yeartoload)
   
   
   
@@ -96,18 +85,6 @@ load.msgs <- function(yeartoload){
 }
 
 
-# load.hgtscores <-  function(yeartoload){
-#   scoresHGT <- read.csv(file="scoresHGT2017.csv",col.names = c("user.id","hgtscore"))
-#   uniquenicktoidfile <- read.xlsx(xlsxFile = "nicks.xlsx", sheet = 2,colNames = FALSE)
-#   names(uniquenicktoidfile) <- c("user.id","unick")
-#   
-#   scoresHGT <- merge(scoresHGT,uniquenicktoidfile)
-#   scoresHGT <- scoresHGT[,2:3]
-#   
-# }
-
-
-
 load.usercolors <- function(){
   dataAPI <- fromJSON(url)
   toreturn <- dataAPI$members[!dataAPI$members$deleted,c("name","color")]
@@ -115,8 +92,6 @@ load.usercolors <- function(){
   names(toreturn)<- c("unick","color")
   toreturn
 }
-
-
 
 
 clean.msgs <- function(messagesToClean){
@@ -136,11 +111,7 @@ clean.msgs <- function(messagesToClean){
   
   messagesToClean$msg <- str_replace_all(messagesToClean$msg, "[^[:alnum:]]", " ")
   
-
-  
   temp <- (unlist(strsplit(messagesToClean$msg," ")))
-  
-  
   
   temp <- temp %w/o% stopwordsFR
   
@@ -155,6 +126,7 @@ clean.msgs <- function(messagesToClean){
 }
 
 
+
 generateLinkTable <- function(messagesURL){
   url_pattern <- "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
   
@@ -164,6 +136,4 @@ generateLinkTable <- function(messagesURL){
   messagesURL$month <-  format(messagesURL$datetime, "%m")
   
   messagesURL[messagesURL$month == currentMonthNumber,c("unick","msg")]
-  
-   
 }
