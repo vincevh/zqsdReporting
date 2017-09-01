@@ -10,6 +10,7 @@ RUN ["Rscript", "INSTALL_DEP.R"]
 RUN unlink /etc/localtime
 RUN ln -s /usr/share/zoneinfo/Europe/Brussels /etc/localtime
 ADD app /app
+ADD README.md /app
 
 EXPOSE 1337
 
