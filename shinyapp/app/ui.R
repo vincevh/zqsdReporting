@@ -102,7 +102,7 @@ navbarPage(
              tabPanel("Messages archive",
                       dataTableOutput('messages')),
              tabPanel("About",
-                      fluidRow(includeMarkdown("../README.md")
+                      fluidRow(includeMarkdown("README.md")
                       )))
 
 )
