@@ -11,7 +11,7 @@ function(text,res){
     
     
   } else if ( command == "minpussy") {
-    toReturn <- data.frame(request[3]/2+7)
+    toReturn <- data.frame((request[3])/2+7)
     
     
   } else if ( command == "yesno") {
