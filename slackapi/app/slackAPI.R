@@ -10,8 +10,8 @@ function(text,res){
     toReturn <- data.frame(request[3])
     
     
-  } else if ( command == "useless") {
-    toReturn <- data.frame(request[3])
+  } else if ( command == "minpussy") {
+    toReturn <- data.frame(request[3]/2+7)
     
     
   } else if ( command == "yesno") {
@@ -19,7 +19,7 @@ function(text,res){
     toReturn <- data.frame(answers[sample(1:2, 1)])
     
   } else
-    toReturn <- data.frame("Command not found. Commands: echo, pushtotaunt, yesno")
+    toReturn <- data.frame("Command not found. Commands: echo <word>, yesno, minpussy <age>")
   
 
   names(toReturn)<- "text"
