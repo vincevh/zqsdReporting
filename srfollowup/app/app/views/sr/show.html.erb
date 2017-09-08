@@ -1,0 +1,22 @@
+<h1>Sr#show</h1>
+<%= form_tag "/sr/#{@sr.id}", method: "patch" do %>
+  <p>New SR:</p>
+  <input  type="text" name="newsr" value="<%= @sr.newsr %>"/>
+  <p>srvariation:</p>
+  <input readonly  type="text" name="srvariation" value="<%= @sr.srvariation %>"/>
+   <p>winloss:</p>
+  <input readonly  type="text" name="winloss" value="<%= @sr.winloss %>"/>
+  <p>userid:</p>
+  <input  type="text" value="<%= @sr.userid %>" name="userid"/>
+  <p>datetime:</p>
+  <input  type="datetime-local" value="<%= @sr.datetime %>" name="datetime"/>
+  <p>performance:</p>
+  <input  type="text" value="<%= @sr.performance %>"name="performance"/>
+  <p>hero:</p>
+  <input  type="text" value="<%= @sr.hero %>"name="hero"/>
+  <p>comment:</p>
+  <input type="text" value="<%= @sr.comment %>" size="40" name="comment"/>
+ </br>
+
+  <input type="submit" value="update sr" />
+<% end %>

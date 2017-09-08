@@ -20,5 +20,5 @@ install.packages("tibble")
 install.packages("markdown")
 install.packages("googleVis")
 install.packages("DT")
-
+install.packages("RMySQL")
 

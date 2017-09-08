@@ -1,0 +1,9 @@
+<h1><%= @user.username %></h1>
+<%= form_tag "/users/#{@user.id}", method: "patch" do %>
+  <input type="text" name="username" value="<%= @user.username %>" />
+  <input type="text" name="battletag" value="<%= @user.battletag %>" />
+  <input type="submit" value="Modifier le user" />
+<% end %>
+
+
+<p><a href="/users">Retourner aux users</a></p>
