@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  userid: 1
+  datetime: 2017-09-08 15:15:34
+  winloss: MyString
+  newsr: 1
+  performance: MyString
+  srvariation: 1
+  hero: MyString
+  comment: MyText
+
+two:
+  userid: 1
+  datetime: 2017-09-08 15:15:34
+  winloss: MyString
+  newsr: 1
+  performance: MyString
+  srvariation: 1
+  hero: MyString
+  comment: MyText

@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Userid:</strong>
+  <%= @sr.userid %>
+</p>
+
+<p>
+  <strong>Datetime:</strong>
+  <%= @sr.datetime %>
+</p>
+
+<p>
+  <strong>Winloss:</strong>
+  <%= @sr.winloss %>
+</p>
+
+<p>
+  <strong>Newsr:</strong>
+  <%= @sr.newsr %>
+</p>
+
+<p>
+  <strong>Performance:</strong>
+  <%= @sr.performance %>
+</p>
+
+<p>
+  <strong>Srvariation:</strong>
+  <%= @sr.srvariation %>
+</p>
+
+<p>
+  <strong>Hero:</strong>
+  <%= @sr.hero %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @sr.comment %>
+</p>
+
+<%= link_to 'Edit', edit_sr_path(@sr) %> |
+<%= link_to 'Back', srs_path %>

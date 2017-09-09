@@ -1,0 +1,57 @@
+<%= form_with(model: sr, local: true) do |form| %>
+  <% if sr.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(sr.errors.count, "error") %> prohibited this sr from being saved:</h2>
+
+      <ul>
+      <% sr.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :userid %>
+    <%= form.number_field :userid, id: :sr_userid %>
+  </div>
+
+  <div class="field">
+    <%= form.label :datetime %>
+    <%= form.datetime_select :datetime, id: :sr_datetime %>
+  </div>
+
+  <div class="field">
+    <%= form.label :winloss %>
+    <%= form.text_field :winloss, id: :sr_winloss %>
+  </div>
+
+  <div class="field">
+    <%= form.label :newsr %>
+    <%= form.number_field :newsr, id: :sr_newsr %>
+  </div>
+
+  <div class="field">
+    <%= form.label :performance %>
+    <%= form.text_field :performance, id: :sr_performance %>
+  </div>
+
+  <div class="field">
+    <%= form.label :srvariation %>
+    <%= form.number_field :srvariation, id: :sr_srvariation %>
+  </div>
+
+  <div class="field">
+    <%= form.label :hero %>
+    <%= form.text_field :hero, id: :sr_hero %>
+  </div>
+
+  <div class="field">
+    <%= form.label :comment %>
+    <%= form.text_area :comment, id: :sr_comment %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

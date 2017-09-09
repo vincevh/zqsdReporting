@@ -10,22 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170906064018) do
+ActiveRecord::Schema.define(version: 20170908131534) do
 
-  create_table "srs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.integer  "userid"
+  create_table "srs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "userid"
     t.datetime "datetime"
-    t.string   "winloss"
-    t.integer  "newsr"
-    t.string   "performance"
-    t.integer  "srvariation"
-    t.string   "hero"
-    t.text     "comment",     limit: 65535
-  end
-
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.string "username"
-    t.string "battletag"
+    t.string "winloss"
+    t.integer "newsr"
+    t.string "performance"
+    t.integer "srvariation"
+    t.string "hero"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

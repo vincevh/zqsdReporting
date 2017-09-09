@@ -1,0 +1,2 @@
+module SrsHelper
+end
