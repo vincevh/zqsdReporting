@@ -6,7 +6,9 @@ shinyServer(function(input, output, session) {
     paste("From:",mondayWeekMinus1, "To:",sundayWeekMinus1,"Last message in db: ", max(messages$datetime), sep=" ")
   })
   
- 
+  output$boxlink<-  renderUI({
+    a("File Archive (request acces to Logs)", href="https://app.box.com/folder/37592909005", target="_blank") 
+  })
   
   
   output$wordPlot <- renderPlot({

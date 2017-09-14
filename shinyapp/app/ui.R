@@ -101,9 +101,12 @@ navbarPage(
   navbarMenu("More",
              tabPanel("Messages archive",
                       dataTableOutput('messages')),
-             tabPanel("About",
-                      fluidRow(includeMarkdown("README.md")
-                      )))
+             tabPanel("Files archive",
+                      htmlOutput("boxlink")
+                      )),
+              tabPanel("About",
+                       fluidRow(includeMarkdown("../README.md")
+                       ))
 
 )
 
