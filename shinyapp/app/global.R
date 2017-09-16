@@ -25,7 +25,6 @@ names(jColors) <- usercolors$unick
 mondayWeekMinus1 <- floor_date(Sys.Date() - 7, "week") + 1
 sundayWeekMinus1 <- floor_date(Sys.Date(), "week")
 
-msgWEEK <-  messages[messages$datetime >= mondayWeekMinus1 &
-                       messages$datetime <=  sundayWeekMinus1 , ]
+msgWEEK <- load.previousweek(mondayWeekMinus1,sundayWeekMinus1)
 
 currentMonthNumber <- format(Sys.Date(),"%m")

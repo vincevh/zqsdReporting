@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20170908131534) do
 
-  create_table "srs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "srs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "userid"
     t.datetime "datetime"
     t.string "winloss"

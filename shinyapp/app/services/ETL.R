@@ -19,7 +19,7 @@ dbMdp = config$security$dbMdp
 url= paste0("https://slack.com/api/users.list?token=", slackToken,sep="")
 
 con <- dbConnect(MySQL(),
-                 user = 'dev',
+                 user = 'zqsdreporting',
                  password = dbMdp,
                  host = 'mymysql',
                  port = 3306,
@@ -93,9 +93,28 @@ load.msgs <- function(yeartoload){
   messages <- messages[!messages$unick %in% unicksToIgnore,]
   
   dbWriteTable(conn = con, name = 'Messages', value = messages, overwrite=TRUE,row.names=FALSE, field.types=list(datetime="datetime", id="int",msg="text",unick="text"))
-  
+
   messages
   
+}
+
+load.previousweek <- function(mondayWeekMinus1,sundayWeekMinus1){
+
+msgWEEK <- messages[messages$datetime >= mondayWeekMinus1 &
+           messages$datetime <=  sundayWeekMinus1 , ]
+
+dbWriteTable(conn = con, name = 'MessagesWeek', value = msgWEEK, overwrite=TRUE,row.names=FALSE, field.types=list(datetime="datetime", id="int",msg="text",unick="text"))
+
+countMsgWeek<- count(msgWEEK, unick)
+
+dbWriteTable(conn = con, name = 'countMsgWeek', value = countMsgWeek, overwrite=TRUE,row.names=FALSE, field.types=list(n="int",unick="text"))
+
+
+msgWEEK
+}
+
+get.count.msg.week <- function(){
+  dbReadTable(con, "countMsgWeek")
 }
 
 

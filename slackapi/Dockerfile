@@ -4,11 +4,14 @@ FROM r-base
 RUN apt-get update -qq && apt-get install -y \
   git-core \
   libssl-dev \
-  libcurl4-gnutls-dev
+  libcurl4-gnutls-dev \
+  libmariadb-client-lgpl-dev
 
 RUN R -e 'install.packages(c("devtools"))'
 RUN R -e 'devtools::install_github("trestletech/plumber")'
 RUN R -e "install.packages('broom')"
+RUN R -e 'install.packages("RMySQL")'
+RUN R -e 'install.packages("yaml")'
 
 EXPOSE 8000
 
