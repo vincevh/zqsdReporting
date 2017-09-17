@@ -1,0 +1,2 @@
+class Sr < ApplicationRecord
+end

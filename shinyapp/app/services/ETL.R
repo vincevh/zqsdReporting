@@ -6,6 +6,7 @@ library(openxlsx)
 library(yaml)
 library(jsonlite)
 library(stringr)
+library(RMySQL)
 })
 
 config <- yaml.load_file("resources/config.yml")
@@ -13,9 +14,19 @@ slackToken = config$security$tokenSlack
 zipURL = config$security$zipURL
 zipUser = config$security$zipUser
 zipMdp = config$security$zipMdp
-
+dbMdp = config$security$dbMdp
 
 url= paste0("https://slack.com/api/users.list?token=", slackToken,sep="")
+
+con <- dbConnect(MySQL(),
+                 user = 'zqsdreporting',
+                 password = dbMdp,
+                 host = 'mymysql',
+                 port = 3306,
+                 dbname= 'zqsdreporting')
+
+
+
 
 load.msgs <- function(yeartoload){
   
@@ -81,6 +92,29 @@ load.msgs <- function(yeartoload){
   ##removing all messages from ignored nicks
   messages <- messages[!messages$unick %in% unicksToIgnore,]
   
+  dbWriteTable(conn = con, name = 'Messages', value = messages, overwrite=TRUE,row.names=FALSE, field.types=list(datetime="datetime", id="int",msg="text",unick="text"))
+
+  messages
+  
+}
+
+load.previousweek <- function(mondayWeekMinus1,sundayWeekMinus1){
+
+msgWEEK <- messages[messages$datetime >= mondayWeekMinus1 &
+           messages$datetime <=  sundayWeekMinus1 , ]
+
+dbWriteTable(conn = con, name = 'MessagesWeek', value = msgWEEK, overwrite=TRUE,row.names=FALSE, field.types=list(datetime="datetime", id="int",msg="text",unick="text"))
+
+countMsgWeek<- count(msgWEEK, unick)
+
+dbWriteTable(conn = con, name = 'countMsgWeek', value = countMsgWeek, overwrite=TRUE,row.names=FALSE, field.types=list(n="int",unick="text"))
+
+
+msgWEEK
+}
+
+get.count.msg.week <- function(){
+  dbReadTable(con, "countMsgWeek")
 }
 
 
@@ -136,3 +170,4 @@ generateLinkTable <- function(messagesURL){
   
   messagesURL[messagesURL$month == currentMonthNumber,c("unick","msg")]
 }
+

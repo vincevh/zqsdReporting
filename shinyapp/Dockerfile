@@ -4,13 +4,14 @@ RUN apt-get update && apt-get install -y \
         libssl-dev \
         curl \
         libcurl4-openssl-dev \
-		libssh2-1-dev
+		libssh2-1-dev \
+		libmariadb-client-lgpl-dev
 ADD INSTALL_DEP.R /app
 RUN ["Rscript", "INSTALL_DEP.R"]
 RUN unlink /etc/localtime
 RUN ln -s /usr/share/zoneinfo/Europe/Brussels /etc/localtime
 ADD app /app
-ADD README.md /app
+
 
 EXPOSE 1337
 

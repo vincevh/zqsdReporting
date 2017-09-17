@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Srs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Userid</th>
+      <th>Datetime</th>
+      <th>Winloss</th>
+      <th>Newsr</th>
+      <th>Performance</th>
+      <th>Srvariation</th>
+      <th>Hero</th>
+      <th>Comment</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @srs.each do |sr| %>
+      <tr>
+        <td><%= sr.userid %></td>
+        <td><%= sr.datetime %></td>
+        <td><%= sr.winloss %></td>
+        <td><%= sr.newsr %></td>
+        <td><%= sr.performance %></td>
+        <td><%= sr.srvariation %></td>
+        <td><%= sr.hero %></td>
+        <td><%= sr.comment %></td>
+        <td><%= link_to 'Show', sr %></td>
+        <td><%= link_to 'Edit', edit_sr_path(sr) %></td>
+        <td><%= link_to 'Destroy', sr, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Sr', new_sr_path %>

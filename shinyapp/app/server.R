@@ -78,8 +78,8 @@ shinyServer(function(input, output, session) {
   })
   
   
-  output$chart2 <- renderPlotly({
-    msgpernickWEEKK <- count(msgWEEK, unick)
+  output$most_useless <- renderPlotly({
+    msgpernickWEEKK <- get.count.msg.week()
     
     p <-ggplot(data = msgpernickWEEKK, aes(reorder(unick, n), n)) +
      geom_bar(stat ='identity') +

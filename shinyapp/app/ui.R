@@ -13,7 +13,7 @@ navbarPage(
             fixedRow(
                textOutput("Load"),
                plotlyOutput("chart1", height=600),
-               plotlyOutput("chart2", height=600)
+               plotlyOutput("most_useless", height=600)
              )
            )),
   
