@@ -1,6 +1,6 @@
 
 
-docker build -t mymysql mysql
+docker build -t mymysql ../mysql
 
 docker run -d -p 3306:3306 --name mymysql -e MYSQL_ROOT_PASSWORD=temp -h mymysql mymysql
 
