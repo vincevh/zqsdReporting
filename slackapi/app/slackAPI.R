@@ -40,9 +40,9 @@ function(text,res){
   
     useless <- dbReadTable(con, "countMsgWeek")  
     
-    useless <- useless[which.max(useless$n),2]
+    useless <- useless[which.max(useless$n),]
     
-    toReturn <- data.frame(paste0("the most useless of previous week is: ",useless))
+    toReturn <- data.frame(paste0("The most useless of previous week is: ",useless[,2], " with ",useless[,1], " messages"  ))
   
 }else
     toReturn <- data.frame("Command not found. Commands: echo <word>, yesno, minpussy <age>, useless")
