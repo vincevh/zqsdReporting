@@ -18,10 +18,10 @@ sleep 180
 ## flush privileges;
 
 
-cat backup/zqsdreporting.sql | docker exec -i mymysql /usr/bin/mysql -u root --password=temp 
-cat backup/srfollowup.sql | docker exec -i mymysql /usr/bin/mysql -u root --password=temp 
-#cat backup/blog.sql | docker exec -i mymysql /usr/bin/mysql -u root --password=temp 
-cat backup/mysql.sql | docker exec -i mymysql /usr/bin/mysql -u root --password=temp 
+cat ../backup/zqsdreporting.sql | docker exec -i mymysql /usr/bin/mysql -u root --password=temp 
+cat ../backup/srfollowup.sql | docker exec -i mymysql /usr/bin/mysql -u root --password=temp 
+#cat ../backup/blog.sql | docker exec -i mymysql /usr/bin/mysql -u root --password=temp 
+cat ../backup/mysql.sql | docker exec -i mymysql /usr/bin/mysql -u root --password=temp 
 
 
 docker stop mymysql
