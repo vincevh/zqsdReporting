@@ -1,8 +1,5 @@
 
-docker build -t zqsdreporting shinyapp
-docker build -t slackapi slackapi
-docker build -t mynginx nginx
-docker build -t srfollowup srfollowup
+
 docker build -t mymysql mysql
 
 docker run -d -p 3306:3306 --name mymysql -e MYSQL_ROOT_PASSWORD=temp -h mymysql mymysql
@@ -25,5 +22,6 @@ cat backup/zqsdreporting.sql | docker exec -i mymysql /usr/bin/mysql -u root --p
 cat backup/srfollowup.sql | docker exec -i mymysql /usr/bin/mysql -u root --password=temp 
 #cat backup/blog.sql | docker exec -i mymysql /usr/bin/mysql -u root --password=temp 
 cat backup/mysql.sql | docker exec -i mymysql /usr/bin/mysql -u root --password=temp 
+
 
 docker stop mymysql

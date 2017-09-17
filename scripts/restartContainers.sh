@@ -4,6 +4,10 @@ docker stop srfollowup
 docker stop slackapi
 docker stop mynginx
 
+docker build -t zqsdreporting shinyapp
+docker build -t slackapi slackapi
+docker build -t mynginx nginx
+docker build -t srfollowup srfollowup
 
 docker start mymysql
 git pull
