@@ -4,6 +4,8 @@ docker stop srfollowup
 docker stop slackapi
 docker stop mynginx
 
+git pull
+
 docker build -t zqsdreporting ../shinyapp
 docker build -t slackapi ../slackapi
 docker build -t mynginx ../nginx
