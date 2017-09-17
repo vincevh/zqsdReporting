@@ -10,7 +10,7 @@ docker build -t mynginx ../nginx
 docker build -t srfollowup ../srfollowup
 
 docker start mymysql
-git pull
+
 sleep 30
 docker run -d --rm -p 1337:1337 --name zqsdreporting -h zqsdreporting --link mymysql:mymysql zqsdreporting
 sleep 30
