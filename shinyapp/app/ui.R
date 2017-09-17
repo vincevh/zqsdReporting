@@ -105,7 +105,7 @@ navbarPage(
                       htmlOutput("boxlink")
                       )),
               tabPanel("About",
-                       fluidRow(includeMarkdown("../README.md")
+                       fluidRow(includeMarkdown("README.md")
                        ))
 
 )
