@@ -113,6 +113,16 @@ dbWriteTable(conn = con, name = 'countMsgWeek', value = countMsgWeek, overwrite=
 msgWEEK
 }
 
+
+load.previousday <- function(day){
+  msgDayMinusOne <- messages[messages$datetime <= ceiling_date(day,"day") & messages$datetime >= floor_date(day,"day"),]
+  countMsgDay <- count(msgDayMinusOne, unick)
+  
+  dbWriteTable(conn = con, name = 'countMsgDayMinusOne', value = countMsgDay, overwrite=TRUE,row.names=FALSE, field.types=list(n="int",unick="text"))
+  
+  
+}
+
 get.count.msg.week <- function(){
   dbReadTable(con, "countMsgWeek")
 }

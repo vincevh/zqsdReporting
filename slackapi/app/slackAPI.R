@@ -36,16 +36,24 @@ function(text,res){
     
     
     
-  }else if ( command == "useless") {
-  
+  }else if ( command == "useless_week") {
+    
     useless <- dbReadTable(con, "countMsgWeek")  
     
     useless <- useless[which.max(useless$n),]
     
-    toReturn <- data.frame(paste0("The most useless of previous week is: ",useless[,2], " with ",useless[,1], " messages"  ))
+    toReturn <- data.frame(paste0("The most useless of previous week is ",useless[,2], " with ",useless[,1], " messages"  ))
+    
+  }else if ( command == "useless_day") {
+  
+    useless <- dbReadTable(con, "countMsgDayMinusOne")  
+    
+    useless <- useless[which.max(useless$n),]
+    
+    toReturn <- data.frame(paste0("The most useless of previous day is ",useless[,2], " with ",useless[,1], " messages"  ))
   
 }else
-    toReturn <- data.frame("Command not found. Commands: echo <word>, yesno, minpussy <age>, useless")
+    toReturn <- data.frame("Command not found. Commands: echo <oneword>, yesno, minpussy <age>, useless_week, useless_day")
   
 
   names(toReturn)<- "text"

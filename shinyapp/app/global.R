@@ -27,4 +27,6 @@ sundayWeekMinus1 <- floor_date(Sys.Date(), "week")
 
 msgWEEK <- load.previousweek(mondayWeekMinus1,sundayWeekMinus1)
 
+msgDayMinusOne <- load.previousday(Sys.Date()-1)
+
 currentMonthNumber <- format(Sys.Date(),"%m")
