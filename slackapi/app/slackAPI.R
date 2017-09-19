@@ -42,7 +42,7 @@ function(text,res){
     
     useless <- useless[which.max(useless$n),]
     
-    toReturn <- data.frame(paste0("The most useless of previous week is ",useless[,2], " with ",useless[,1], " messages"  ))
+    toReturn <- data.frame(paste0("Most useless week-1: ",useless[,2], "  (",useless[,1], " messages)"  ))
     
   }else if ( command == "useless_day") {
   
@@ -50,7 +50,7 @@ function(text,res){
     
     useless <- useless[which.max(useless$n),]
     
-    toReturn <- data.frame(paste0("The most useless of previous day is ",useless[,2], " with ",useless[,1], " messages"  ))
+    toReturn <- data.frame(paste0("Most useless day-1: ",useless[,2], " (",useless[,1], " messages)"  ))
   
 }else
     toReturn <- data.frame("Command not found. Commands: echo <oneword>, yesno, minpussy <age>, useless_week, useless_day")
