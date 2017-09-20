@@ -5,12 +5,16 @@ library(yaml)
 config <- yaml.load_file("./resources/config.yml")
 dbMdp = config$security$dbMdp
 
-con <- dbConnect(MySQL(),
-                 user = 'zqsdreporting',
-                 password = dbMdp,
-                 host = 'mymysql',
-                 port = 3306,
-                 dbname= 'zqsdreporting')
+connectDB <- function(){
+  dbConnect(MySQL(),
+            user = 'zqsdreporting',
+            password = dbMdp,
+            host = 'mymysql',
+            port = 3306,
+            dbname= 'zqsdreporting')
+  
+}
+
 
 
 #' @post /slackAPI
@@ -37,21 +41,21 @@ function(text,res){
     
     
   }else if ( command == "useless_week") {
-    
+    con <-  connectDB()
     useless <- dbReadTable(con, "countMsgWeek")  
     
     useless <- useless[which.max(useless$n),]
     
     toReturn <- data.frame(paste0("Most useless week-1: ",useless[,2], "  (",useless[,1], " messages)"  ))
-    
+    dbDisconnect(con)
   }else if ( command == "useless_day") {
-  
+    con <-  connectDB()
     useless <- dbReadTable(con, "countMsgDayMinusOne")  
     
     useless <- useless[which.max(useless$n),]
     
     toReturn <- data.frame(paste0("Most useless day-1: ",useless[,2], " (",useless[,1], " messages)"  ))
-  
+    dbDisconnect(con)
 }else
     toReturn <- data.frame("Command not found. Commands: echo <oneword>, yesno, minpussy <age>, useless_week, useless_day")
   
