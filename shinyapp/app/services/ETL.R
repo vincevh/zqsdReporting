@@ -113,11 +113,11 @@ load.previousweek <- function(mondayWeekMinus1,sundayWeekMinus1){
 
 msgWEEK <- messages[messages$datetime >= mondayWeekMinus1 &
            messages$datetime <=  sundayWeekMinus1 , ]
-
+con <- connectDB()
 dbWriteTable(conn = con, name = 'MessagesWeek', value = msgWEEK, overwrite=TRUE,row.names=FALSE, field.types=list(datetime="datetime", id="int",msg="text",unick="text"))
 
 countMsgWeek<- count(msgWEEK, unick)
-con <- connectDB()
+
 dbWriteTable(conn = con, name = 'countMsgWeek', value = countMsgWeek, overwrite=TRUE,row.names=FALSE, field.types=list(n="int",unick="text"))
 
 dbDisconnect(con)
@@ -136,8 +136,9 @@ load.previousday <- function(day){
 
 get.count.msg.week <- function(){
   con <- connectDB()
-  dbReadTable(con, "countMsgWeek")
+  toreturn <-  dbReadTable(con, "countMsgWeek")
   dbDisconnect(con)
+  toreturn
 }
 
 
