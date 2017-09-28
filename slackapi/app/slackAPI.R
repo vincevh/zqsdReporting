@@ -42,10 +42,10 @@ function(text,res){
     
   }else if ( command == "bitcoin") {
     
-    amount <- request[3]
-    rate_buy <- request[4]
+    amount <- as.numeric(request[3])
+    rate_buy <- as.numeric(request[4])
     dataAPI <- fromJSON("https://www.bitstamp.net/api/v2/ticker/btceur/")
-    current_rate <- dataAPI$last
+    current_rate <- as.numeric(dataAPI$last)
     gain <- ((amount / rate_buy) * current_rate) - amount
     
     toReturn <- data.frame(paste0("Gain: ",as.numeric(gain)))
