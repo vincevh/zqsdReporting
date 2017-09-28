@@ -12,6 +12,7 @@ RUN R -e 'devtools::install_github("trestletech/plumber")'
 RUN R -e "install.packages('broom')"
 RUN R -e 'install.packages("RMySQL")'
 RUN R -e 'install.packages("yaml")'
+RUN R -e 'install.packages("jsonlite")'
 
 EXPOSE 8000
 

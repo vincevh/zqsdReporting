@@ -1,6 +1,6 @@
 library(RMySQL)
 library(yaml)
-
+library(jsonlite)
 
 config <- yaml.load_file("./resources/config.yml")
 dbMdp = config$security$dbMdp
@@ -40,6 +40,19 @@ function(text,res){
     
     
     
+  }else if ( command == "bitcoin") {
+    
+    amount <- request[3]
+    rate_buy <- request[4]
+    dataAPI <- fromJSON("https://www.bitstamp.net/api/v2/ticker/btceur/")
+    current_rate <- dataAPI$last
+    gain <- ((amount / rate_buy) * current_rate) - amount
+    
+    toReturn <- data.frame(paste0("Gain: ",as.numeric(gain)))
+    
+    
+    
+    
   }else if ( command == "useless_week") {
     con <-  connectDB()
     useless <- dbReadTable(con, "countMsgWeek")  
@@ -57,7 +70,7 @@ function(text,res){
     toReturn <- data.frame(paste0("Most useless day-1: ",useless[,2], " (",useless[,1], " messages)"  ))
     dbDisconnect(con)
 }else
-    toReturn <- data.frame("Command not found. Commands: echo <oneword>, yesno, minpussy <age>, useless_week, useless_day")
+    toReturn <- data.frame("Command not found. Commands: echo <oneword>, yesno, minpussy <age>, useless_week, useless_day, bitcoin <amount in euro> <BTC/EUR exchange rate when bought>")
   
 
   names(toReturn)<- "text"
