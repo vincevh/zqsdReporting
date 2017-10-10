@@ -46,9 +46,9 @@ function(text,res){
     rate_buy <- as.numeric(request[4])
     dataAPI <- fromJSON("https://www.bitstamp.net/api/v2/ticker/btceur/")
     current_rate <- as.numeric(dataAPI$last)
-    gain <- ((amount / rate_buy) * current_rate) - amount
+    gain <- round(((amount / rate_buy) * current_rate) - amount, digits = 2)
     
-    toReturn <- data.frame(paste0("Gain: ",as.numeric(gain)))
+    toReturn <- data.frame(paste0("Gain: ",as.numeric(gain), " €"))
     
     
     
